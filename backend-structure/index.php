@@ -9,29 +9,22 @@
         // echo $name;
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
-        $role_name = mysqli_real_escape_string($conn,$_POST['role_name']);
-        echo $role_name;
-
         // echo $role_id;
     } 
 
-    $query = "SELECT email , password FROM staff";
+    $query = "SELECT staff_id FROM staff WHERE email = '$email' and password = '$password'";
         echo $query;
          $result = mysqli_query($conn,$query);
          $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
          var_dump($employees);
+         $count = mysqli_num_rows($result);
          mysqli_free_result($result);
 
-    
-    $query = "SELECT * FROM roles";
-    
-    $result = mysqli_query($conn,$query);
-
-    $roles = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    var_dump($roles);
-
-    mysqli_free_result($result);
-
+         if($count == 1) {
+            header("location: http://localhost/Timesheet/backend-structure/show_project.php");
+         }else {
+            $error = "Your Login Name or Password is invalid";
+         }
     
 
 ?>
@@ -61,21 +54,12 @@
         <label>Email: </label><br>
         <input type="email" name="email" placeholder = "Enter email...">
         <br>
-        <select id="roles" name="role_name">
-        <?php
-        foreach($roles as $role_name){
-            $role_name = $role_name['role_name'];
-            echo "<option>Choose role</option>";
-            echo "<option value = '$role_name'>$role_name</option>";
-        }
-        ?>
-        </select>
-        <br>
         <label>password </label>
         <input type="password" name="password" placeholder = "Enter password...">
         <br>
         <br>
-        <button type="submit" name = "submit"><a href="<?php echo 'http://localhost/Timesheet/backend-structure';?>i.php"></a>Submit</button>
+        <input type="hidden" name="staff_id" value="<?php echo $employees['staff_id']; ?>">
+        <button type="submit" name = "submit">Submit</button>
     </form>
 </body>
 </html>
