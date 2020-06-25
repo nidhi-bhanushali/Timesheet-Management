@@ -1,3 +1,34 @@
+
+ <?php
+    require('include/common/config.php');
+
+
+    if(isset($_POST['submit'])){
+		// print_r($_POST);
+        // $name = htmlentities($_POST['name']);
+        // echo $name;
+		$email = mysqli_real_escape_string($conn, $_POST['email']);
+        $password = mysqli_real_escape_string($conn,$_POST['password']);
+        // echo $role_id;
+    } 
+
+    $query = "SELECT * FROM staff";
+        echo $query;
+         $result = mysqli_query($conn,$query);
+         $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
+         $count = mysqli_num_rows($result);
+         mysqli_free_result($result);
+
+         foreach($employees as $employee){
+            if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
+                header( "location: http://localhost/Timesheet/backend-structure/roles.php");
+            } elseif(($email===$employee['email']) && ($password === $employee['password'])) {
+                header( "location: http://localhost/Timesheet/backend-structure/show_client.php");
+            }
+        }
+         
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,28 +51,16 @@
     </style>
 
     <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-        <label>Name: </label><br>
-        <input type="text" name="name" placeholder = "Enter name...">
-        <br>
         <label>Email: </label><br>
         <input type="email" name="email" placeholder = "Enter email...">
         <br>
-        <label>Contact </label><br>
-        <input type="number" name="contact" placeholder = "Enter contact..." >
-        <br>
-        <label>Address </label><br>
-        <input type="text" name="address" placeholder = "Enter address...">
-        <br>
-        <select id="cars" name="cars">
-        <option>Volvo</option>
-        <option>Saab</option>
-        <option>Fiat</option>
-        <option>Audi</option>
-        </select>
-        <label>password </label><br>
+        <label>password </label>
         <input type="password" name="password" placeholder = "Enter password...">
         <br>
-        <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>
+        <br>
+        <input type="hidden" name="staff_id" value="<?php echo $employees['staff_id']; ?>">
+        
+        <button type="submit" name = "submit">Submit</button>
     </form>
 </body>
 </html>

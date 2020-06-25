@@ -2,17 +2,46 @@
  <?php
     require('include/common/config.php');
 
+    // if(isset($_GET['submit'])){
+    //     try{
+    //       $id = mysqli_real_escape_string($conn, $_GET['submit']);
+    //       echo $id;
+      
+    //       $sql = 'SELECT * FROM staff WHERE staff_id = '.$id;
+    //       echo $sql;
+            
+    //       $result = mysqli_query($conn, $query);
+          
+    //       // Fetch Data
+    //       $staff = mysqli_fetch_assoc($result);
+    //       var_dump($staff);
+      
+    //       // Free Result
+    //       mysqli_free_result($result);
+      
+    //       // Close Connection
+    //       mysqli_close($conn);
+    //     }catch(Exception $e) { 
+    //       echo "\n Exception Caught", $e->getMessage();
+    //     }
+    //   }else{
+    //       echo 'Something went wrong';
+    //       exit;
+    //   }
+
+
 
     if(isset($_POST['submit'])){
 		// print_r($_POST);
         // $name = htmlentities($_POST['name']);
         // echo $name;
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
         // echo $role_id;
-    } 
+     
 
-    $query = "SELECT staff_id FROM staff WHERE email = '$email' and password = '$password'";
+    $query = "SELECT * FROM staff";
         echo $query;
          $result = mysqli_query($conn,$query);
          $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
@@ -20,13 +49,17 @@
          $count = mysqli_num_rows($result);
          mysqli_free_result($result);
 
-         if($count == 1) {
-            header("location: http://localhost/Timesheet/backend-structure/show_project.php");
-         }else {
-            $error = "Your Login Name or Password is invalid";
-         }
-    
-
+         foreach($employees as $employee){
+            if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
+                header( "location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
+            } elseif(($email===$employee['email']) && ($password === $employee['password'])) {
+                header( "location: http://localhost/Timesheet/backend-structure/show_client.php");
+            }else{
+                echo 'invalid credentials'; 
+            }
+        }
+    }
+         
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +91,7 @@
         <input type="password" name="password" placeholder = "Enter password...">
         <br>
         <br>
-        <input type="hidden" name="staff_id" value="<?php echo $employees['staff_id']; ?>">
+        <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
         <button type="submit" name = "submit">Submit</button>
     </form>
 </body>

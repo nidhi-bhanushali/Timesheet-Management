@@ -30,17 +30,47 @@
          }
          echo $staff_admin_id;
          mysqli_free_result($result);
+
+         $query = "SELECT client_id FROM clients WHERE
+                client_name = '$client_name'LIMIT 1";
+        echo $query;
+         $result = mysqli_query($conn,$query);
+         if ($result !== false){
+            $row = mysqli_fetch_array($result);
+            $client_id = $row[0];
+         }
+         echo $client_id;
+         mysqli_free_result($result);
+
+        //  $query = "SELECT project_id FROM projects WHERE
+        //            project_name = '$project_name' LIMIT 1";
+        // echo $query;
+        // $result = mysqli_query($conn,$query);
+        // if ($result !== false){
+        //    $row = mysqli_fetch_array($result);
+        //    $project_id = $row[0];
+        // }
+        // echo $project_id;
+        // mysqli_free_result($result);
+                
+        
         
 
-        $query = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id) 
+        $query1 = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id) 
         VALUES('$project_name' , '$client_name' , '$status' , '$amount' , '$amount_paid', '$amount_pending' ,'$start_date' ,'$end_date' , '$hosting_date' , '$staff_admin_id' )";
-
-        if(mysqli_query($conn, $query)){
-            header('Location: http://localhost/Timesheet/backend-structure/show_project.php');
-        } else {
-            echo 'ERROR: '. mysqli_error($conn);
+        if(mysqli_query($conn, $query1)){
+        	$project_id = mysqli_insert_id($conn);
         }
-    } 
+        $query = "INSERT INTO client_project_junc(client_id , project_id) VALUES('$client_id' , '$project_id')";
+        if(mysqli_query($conn, $query)){
+			header('Location:  http://localhost/Timesheet/backend-structure/show_project.php');
+		} else {
+			echo 'ERROR: '. mysqli_error($conn);
+		}
+    }
+
+    
+
     
 
 ?>
@@ -92,7 +122,7 @@
         <br>
         <button type="submit" name = "submit">Submit</button>
         <br>
-        <button type="submit" name = "submit">Assign Tasks</button>
+        <button type="submit" name = "submit"><a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_tasks.php'?>">Assign Tasks</button>
     </form>
 </body>
 </html>

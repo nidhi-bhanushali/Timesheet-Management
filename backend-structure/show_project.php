@@ -74,5 +74,7 @@
         </tr>
     </table>
     </div>
+
+    <button><a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_project.php'?>">Add New Project</button>
 </body>
 </html>
