@@ -1,56 +1,189 @@
 <?php
-    require('../../include/common/config.php');
+require('../../include/common/config.php');
 
-    if(isset($_POST['submit'])){
-		// print_r($_POST);
-        // $name = htmlentities($_POST['name']);
-        // echo $name;
-        $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-		$email = mysqli_real_escape_string($conn, $_POST['email']);
-        $contact = mysqli_real_escape_string($conn,$_POST['contact']);
-        $address = mysqli_real_escape_string($conn,$_POST['address']);
-        $project_name = mysqli_real_escape_string($conn,$_POST['project_name']);
-        
-        $query = "UPDATE clients SET 
-                    client_name='$name',
-                    contact='$contact',
-                    email='$email',
-                    address = '$address',
-                    project_name = '$project_name' 
-            WHERE client_id = {$update_id}";
-
-        if(mysqli_query($conn, $query)){
-			header('Location:  http://localhost/Timesheet/backend-structure/show_client.php');
-		} else {
-			echo 'ERROR: '. mysqli_error($conn);
-		}
+if(isset($_POST['submit'])){
+    $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
+    $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
+    $task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
+    $progress = mysqli_real_escape_string($conn,$_POST['progress']);
+    echo $progress;
+    $deadline = mysqli_real_escape_string($conn,$_POST['deadline']);
+    if(!empty($_POST['check_list'])){
+        $checkbox = $_POST['check_list'];
+        $checked=[];
+        // Loop to store and display values of individual checked checkbox.
+        foreach($checkbox as $selected){
+            array_push($checked,$selected);
+        }
+        print_r($checked);
     }
+    
+    $id = [];
+    $i = 0;
+    foreach($checkbox as $checkbox){
+        $query = "SELECT staff_id from staff WHERE 
+                staff_name = '$checkbox'";
+        echo $query;
+        $result = mysqli_query($conn,$query);
+        $row = mysqli_fetch_array($result);
+        echo $row[$i];
+        array_push($id , $row[$i]);
+    }
+    print_r($id);
+    mysqli_free_result($result);
+    // $staff_id = implode(" , ",$id);
+    // echo $staff_id;
+    
+
+    $query = "SELECT project_id  FROM projects WHERE
+                project_name = '$project_name'LIMIT 1";
+    echo $query;
+    $result = mysqli_query($conn,$query);
+    if ($result !== false){
+    $row = mysqli_fetch_array($result);
+    $project_id = $row[0];
+    }
+    echo $project_id;
+    mysqli_free_result($result);
+
+    $query = "SELECT progress_id FROM progress WHERE
+    progress = '$progress'LIMIT 1";
+    echo $query;
+    $result = mysqli_query($conn,$query);
+    if ($result !== false){
+    $row = mysqli_fetch_array($result);
+    $progress_id = $row[0];
+    }
+    echo $project_id;
+    mysqli_free_result($result);
+
+        $sql = "UPDATE tasks SET
+                project_name = '$project_name',
+                task_name = '$task_name',
+                progress = '$progress',
+                Deadline = '$deadline'
+                WHERE task_id = {$update_id}";
+        if(mysqli_query($conn ,$sql)){
+                $task_id = mysqli_insert_id($conn);
+            for($j = 0 ; $j < count($id) ; $j++){
+                $query = "INSERT INTO staff_project_junc(staff_id , project_id) VALUES('" . $id[$j] . "' , '$project_id')";
+                if(mysqli_query($conn, $query)){
+                    $query1 = "INSERT INTO task_staff_junc(staff_id , task_id) VALUES('" . $id[$j] . "' , '$task_id' )";
+                    if(mysqli_query($conn, $query1)){
+                        header('Location:  http://localhost/Timesheet/backend-structure/show_project.php');
+                    } else {
+                        echo 'ERROR: '. mysqli_error($conn);
+                    }
+                }
+            }
+}
+}
+
+$query = 'SELECT * FROM staff where (role_id != 1)';
+$result = mysqli_query( $conn , $query );
+$data = mysqli_fetch_all($result , MYSQLI_ASSOC);
+mysqli_free_result($result);
+
+$query = "SELECT * FROM progress";
+    
+    $result = mysqli_query($conn,$query);
+
+    $progress = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    var_dump($progress);
+
+    mysqli_free_result($result);
+
+
 
     if(isset($_GET['id'])){
-        try{
-          $id = mysqli_real_escape_string($conn, $_GET['id']);
-      
-          $query = 'SELECT * FROM clients WHERE client_id = '.$id;
-      
-          $result = mysqli_query($conn, $query);
-          
-          // Fetch Data
-          $client = mysqli_fetch_assoc($result);
-          var_dump($client);
-      
-          // Free Result
-          mysqli_free_result($result);
-      
-          // Close Connection
-          mysqli_close($conn);
-        }catch(Exception $e) { 
-          echo "\n Exception Caught", $e->getMessage();
-        }
-      }else{
-          echo 'Something went wrong';
-          exit;
+      try{
+        $id = mysqli_real_escape_string($conn, $_GET['id']);
+    
+        $query = 'SELECT * FROM tasks 
+                  JOIN projects
+                  ON tasks.project_id = projects.project_id       
+                  WHERE task_id = '.$id;
+    
+        $result = mysqli_query($conn, $query);
+        
+        // Fetch Data
+        $task = mysqli_fetch_assoc($result);
+        var_dump($task);
+    
+        // Free Result
+        mysqli_free_result($result);
+    
+        // Close Connection
+        mysqli_close($conn);
+      }catch(Exception $e) { 
+        echo "\n Exception Caught", $e->getMessage();
       }
+    }else{
+        echo 'Something went wrong';
+        exit;
+    }
+
+    
 
 ?>
 
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Tasks</title>
+</head>
+<body>
+    <h3>Assign Tasks</h3>
+    <style>
+        .form{
+            border: 1px solid black;
+            padding: 10px;
+            width: 200px;
+            display: flex;
+            flex-direction:column;
+            justify-content : center;
+            margin:200px auto ;
+        }
+    </style>
+
+    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
+        <label>Project Name: </label>
+        <input type="text" name="project_name" placeholder = "Enter name..."
+        value = "<?php echo $task['project_name'];?>">
+        <br>
+        <label>Task Name: </label>
+        <input type="text" name="task_name" placeholder = "Enter task..."
+        value = "<?php echo $task['task_content'];?>">
+        <br>
+        <select id="roles" name="progress" 
+        value = "<?php echo $task[''];?>">
+        <option>Choose role</option>
+        <?php
+        foreach($progress as $progress){
+            $progress = $progress['progress'];
+            echo "<option value = '$progress'>$progress</option>";
+        }
+        ?>
+        </select>
+        <br>
+        <label>Deadline: </label>
+        <input type="text" name="deadline" placeholder = "Enter deadline..."
+        value = "<?php echo $task['Deadline'];?>">
+        <br>
+        <?php
+        foreach($data as $data) {
+        echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'] ;
+        }
+        ?>
+        <br>
+        <br>
+        <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>
+        <input type="hidden" name="update_id" value="<?php echo $task['task_id']; ?>">
+    </form>
+</body>
+</html>
