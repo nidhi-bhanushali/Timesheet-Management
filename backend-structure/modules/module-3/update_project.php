@@ -89,10 +89,10 @@
         <br>
         <input type="text" name="client_name" placeholder = "Enter Client name..."  value = "<?php echo $project['client_name'];?>">
         <br>
-        <select name="status" id=""  value = "<?php echo $project['status'];?>">
-        <option value="to do">To Do</option>
-        <option value="ongoing">Ongoing</option>
-        <option value="done">Done</option>
+        <select name="status" id="">
+        <option value="<?php echo $project['status'];?>">To Do</option>
+        <option value="<?php echo $project['status'];?>">Ongoing</option>
+        <option value="<?php echo $project['status'];?>">Done</option>
         </select>
         <br>
         <input type="number" name="amount" placeholder = "Enter Amount..."  value = "<?php echo $project['amount'];?>">
