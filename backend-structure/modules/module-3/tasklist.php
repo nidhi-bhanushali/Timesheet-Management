@@ -8,7 +8,48 @@
 
     // Fetch data
     $tasks = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    var_dump($tasks);
+    //var_dump($tasks);
+
+    mysqli_free_result($result);
+
+    $query = 'SELECT * FROM notes
+              JOIN staff
+              ON notes.staff_id = staff.staff_id';
+
+    // Result
+    $result = mysqli_query($conn,$query);
+
+    // Fetch data
+    $notes = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($notes);
+
+    mysqli_free_result($result);
+
+    $query = 'SELECT * FROM comments
+              JOIN tasks
+              ON comments.task_id = tasks.task_id';
+    
+
+    // Result
+    $result = mysqli_query($conn,$query);
+
+    // Fetch data
+    $comments = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($comments);
+
+    mysqli_free_result($result);
+
+
+    $query1 = 'SELECT * FROM notes
+                JOIN tasks
+                ON notes.task_id = tasks.task_id';
+
+    // Result
+    $result = mysqli_query($conn,$query1);
+
+    // Fetch data
+    $task3 = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($task3);
 
     mysqli_free_result($result);
 
@@ -34,6 +75,15 @@
         th {
         text-align: left;
     }
+
+        .note-item{
+        border: 1px solid black;
+        margin: 10px;
+        width:400px;
+        padding:20px;
+        padding-top:10px;
+        box-shadow: 3px 3px 3px 3px #888888;
+        }
 </style>
 
     <h3>TaskList</h3>
@@ -57,5 +107,36 @@
             <br>
         </tr>
     </table>
+
+    <br>
+    <br>
+
+    <h3>Comments</h3>
+    <?php $count = 1 ?>
+    <div class = "notes">
+    <?php foreach ($comments as $comment) :?>
+        <div class = "note-item">
+            <h4>Note <?php echo $count ?></h4>
+            <h3><?php echo $comment['comment_content'] ;?></h3>
+            <h4> Put up for <?php echo $comment['task_content'];?></h4>
+        </div>
+        <?php $count++; ?>
+    <?php endforeach;?>
+    </div>
+    
+    <h3>Notes</h3>
+    <?php $count = 1 ?>
+    <div class = "notes">
+    <?php foreach ($notes as $note) :?>
+        <div class = "note-item">
+            <h4>Note <?php echo $count ?></h4>
+            <h3><?php echo $note['notes_content'] ;?></h3>
+            <h4> Put up by <?php echo $note['staff_name'];?></h4>
+        </div>
+        <?php $count++; ?>
+    <?php endforeach;?>
+
+    </div>
+
 </body>
 </html>
