@@ -9,22 +9,25 @@
     }
 
 
-    $query = "SELECT * FROM tasks 
-              JOIN task_staff_junc
-              ON tasks.task_id = task_staff_junc.task_id
+    $query = "SELECT * FROM task_staff_junc
+              JOIN tasks
+              ON task_staff_junc.task_id = tasks.task_id
+              JOIN progress
+              ON tasks.progress_id = progress.progress_id
               WHERE staff_id = '$staff_id'";
 
     // Result
     $result = mysqli_query($conn,$query);
 
     // Fetch data
-    $projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
-     var_dump($projects);
+    $tasks = mysqli_fetch_all($result , MYSQLI_ASSOC);
+     //var_dump($tasks);
 
     mysqli_free_result($result);
-
     // Close connection
     mysqli_close($conn);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -48,28 +51,17 @@
     }
     </style>
     <div>
-        <h1>Clients</h1>
+        <h1>Your Tasks</h1>
         <table>
         <tr>
-            <th>client_id</th>
-            <th>name</th>
-            <th>contact</th>
-            <th>address</th>
-            <th>email</th>
-            <th>project_name</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <?php foreach($clients as $client):?>
+            <th>Task Content</th>
+            <th>Deadline</th>
+            <th>Progress</th>
+            <?php foreach($tasks as $task):?>
                 <tr>
-                    <td><?php echo $client['client_id'] ;?></td>
-                    <td><?php echo $client['client_name'] ;?></td>
-                    <td><?php echo $client['contact'] ;?></td>
-                    <td><?php echo $client['address'] ;?></td>
-                    <td><?php echo $client['email'] ;?></td>
-                    <td><?php echo $client['project_name'] ;?></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>update_client.php?id=<?php echo $client['client_id']; ?>">Edit</a></button></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>remove_client.php?id=<?php echo $client['client_id']; ?>">Delete</a></button></td>
-
+                    <td><?php echo $task['task_content'] ;?></td>
+                    <td><?php echo $task['Deadline'] ;?></td>
+                    <td><?php echo $task['progress'] ;?></td>
                 </tr>    
             <?php endforeach?>
             <br>
