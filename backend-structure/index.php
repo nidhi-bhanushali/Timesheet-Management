@@ -3,7 +3,7 @@
     require('include/common/config.php');
 
     if(isset($_POST['submit'])){
-        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+        // $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
         // echo $role_id;
@@ -14,20 +14,23 @@
          $result = mysqli_query($conn,$query);
          $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
          var_dump($employees);
+         
          $count = mysqli_num_rows($result);
          mysqli_free_result($result);
 
          foreach($employees as $employee){
+            
+            $staff_id = $employee['staff_id'];
             if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
                 header( "location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
             } elseif(($email===$employee['email']) && ($password === $employee['password'])) {
-                header( "location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id = $employee[staff_id]");
+                header( "Location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id=".$staff_id);
             }else{
                 echo 'invalid credentials'; 
             }
         }
     }
-         
+       
 ?>
 
 <!DOCTYPE html>
@@ -59,8 +62,9 @@
         <input type="password" name="password" placeholder = "Enter password...">
         <br>
         <br>
-        
-        <button type="submit" name = "submit">Submit</button>
+        <button type="submit" name = "submit">
+        Submit
+        </button>
     </form>
 </body>
 </html>
