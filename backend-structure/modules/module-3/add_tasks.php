@@ -79,14 +79,26 @@ $result = mysqli_query( $conn , $query );
 $data = mysqli_fetch_all($result , MYSQLI_ASSOC);
 mysqli_free_result($result);
 
+
+// Fetching progress
 $query = "SELECT * FROM progress";
     
     $result = mysqli_query($conn,$query);
 
     $progress = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    var_dump($progress);
+    //var_dump($progress);
 
     mysqli_free_result($result);
+
+// Fetching project names
+$query = "SELECT * FROM projects";
+    
+$result = mysqli_query($conn,$query);
+
+$projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
+//var_dump($projects);
+
+mysqli_free_result($result);
 ?>
 
 
@@ -113,14 +125,21 @@ $query = "SELECT * FROM progress";
     </style>
 
     <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-        <label>Project Name: </label>
-        <input type="text" name="project_name" placeholder = "Enter name...">
+    <select id="projects" name="projects">
+        <option>Choose project</option>
+        <?php
+        foreach($projects as $project){
+            $project = $project['project_name'];
+            echo "<option value = '$project'>$project</option>";
+        }
+        ?>
+        </select>
         <br>
         <label>Task Name: </label>
         <input type="text" name="task_name" placeholder = "Enter task...">
         <br>
         <select id="roles" name="progress">
-        <option>Choose role</option>
+        <option>Choose progress</option>
         <?php
         foreach($progress as $progress){
             $progress = $progress['progress'];
