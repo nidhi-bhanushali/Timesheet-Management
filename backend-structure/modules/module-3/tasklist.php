@@ -13,15 +13,15 @@
     mysqli_free_result($result);
 
     $query = 'SELECT * FROM notes
-              JOIN staff
-              ON notes.staff_id = staff.staff_id';
+              JOIN tasks
+              ON notes.task_id = tasks.task_id';
 
-    // Result
+    // Result 
     $result = mysqli_query($conn,$query);
 
     // Fetch data
     $notes = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    //var_dump($notes);
+    var_dump($notes);
 
     mysqli_free_result($result);
 

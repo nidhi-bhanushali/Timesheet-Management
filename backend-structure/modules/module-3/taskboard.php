@@ -49,6 +49,34 @@ $done = mysqli_fetch_all($result , MYSQLI_ASSOC);
 //var_dump($done);
 
 mysqli_free_result($result);
+
+// Fetching all notes
+$query = 'SELECT * FROM notes
+              JOIN tasks
+              ON notes.task_id = tasks.task_id';
+
+    // Result 
+    $result = mysqli_query($conn,$query);
+
+    // Fetch data
+    $notes = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($notes);
+
+    mysqli_free_result($result);
+
+// Fetching all comments
+$query = 'SELECT * FROM comments
+          JOIN tasks
+          ON comments.task_id = tasks.task_id';
+        
+    $result = mysqli_query($conn,$query);
+
+    // Fetch data
+    $comments = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($comments);
+
+    mysqli_free_result($result);
+
 // Close connection
 mysqli_close($conn);
 ?>
@@ -86,8 +114,28 @@ mysqli_close($conn);
             <h3><?php echo $task_todo['task_content'] ;?></h3>
             <h4>Assigned to <?php echo $task_todo['staff_name'];?></h4>
             <small>Due on <?php echo $task_todo['Deadline'];?></small>
+    <?php 
+        foreach($notes as $note){
+        if($note['staff_id'] == $task_todo['staff_id'] && $note['task_id'] == $task_todo['task_id']){
+        ?>
+        <h4>Note : <?php echo $note['notes_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
+
+    <?php
+        foreach($comments as $comment){
+        if($comment['task_id'] == $task_todo['task_id'] ){
+        ?>
+        <h4>Comments : <?php echo $comment['comment_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
         </div>
         <?php endforeach;?>
+        
     </div>
 
     <div class = "tasks">
@@ -97,6 +145,26 @@ mysqli_close($conn);
         <h3><?php echo $task_ongoing['task_content'] ;?></h3>
         <h4>Assigned to <?php echo $task_ongoing['staff_name'];?></h4>
         <small>Due on <?php echo $task_ongoing['Deadline'];?></small>
+    <?php 
+        foreach($notes as $note){
+        if($note['staff_id'] == $task_ongoing['staff_id']  && $note['task_id'] == $task_ongoing['task_id']){
+        ?>
+        <h4>Note : <?php echo $note['notes_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
+
+    <?php
+        foreach($comments as $comment){
+        if($comment['task_id'] == $task_ongoing['task_id'] ){
+        ?>
+        <h4>Comments : <?php echo $comment['comment_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
+
     </div>
     <?php endforeach;?>
     </div>
@@ -108,6 +176,25 @@ mysqli_close($conn);
         <h3><?php echo $task_done['task_content'] ;?></h3>
         <h4>Assigned to <?php echo $task_done['staff_name'];?></h4>
         <small>Due on <?php echo $task_done['Deadline'];?></small>
+    <?php 
+        foreach($notes as $note){
+        if($note['staff_id'] == $task_done['staff_id']  && $note['task_id'] == $task_done['task_id']){
+        ?>
+        <h4>Note : <?php echo $note['notes_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
+
+    <?php
+        foreach($comments as $comment){
+        if($comment['task_id'] == $task_done['task_id'] ){
+        ?>
+        <h4>Comments : <?php echo $comment['comment_content'];?></h4>
+        <?php
+        }
+    } 
+    ?>
     </div>
     <?php endforeach;?>
     </div>
