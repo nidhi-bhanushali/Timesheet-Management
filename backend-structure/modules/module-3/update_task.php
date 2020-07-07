@@ -148,9 +148,6 @@ mysqli_free_result($result);
         exit;
     }
 
-   
-    
-
 ?>
 
 
@@ -210,11 +207,6 @@ mysqli_free_result($result);
         <option>Choose role</option>
         
         <?php
-        // foreach($progress as $progress){
-        //     $progress = $progress['progress'];
-        //     echo "<option value = '$progress'>$progress</option>";
-        // }
-      
         foreach($progressArr as $progressArr1){
           $progress_id = $progressArr1['progress_id'];
           $progress = $progressArr1['progress'];

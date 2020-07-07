@@ -50,6 +50,8 @@ $done = mysqli_fetch_all($result , MYSQLI_ASSOC);
 
 mysqli_free_result($result);
 
+
+
 // Fetching all notes
 $query = 'SELECT * FROM notes
               JOIN tasks
@@ -64,6 +66,8 @@ $query = 'SELECT * FROM notes
 
     mysqli_free_result($result);
 
+
+
 // Fetching all comments
 $query = 'SELECT * FROM comments
           JOIN tasks
@@ -76,6 +80,21 @@ $query = 'SELECT * FROM comments
     //var_dump($comments);
 
     mysqli_free_result($result);
+
+
+// // Fetching projects
+$query = 'SELECT project_name , task_id FROM projects
+          JOIN tasks
+          ON projects.project_id = tasks.project_id';
+        
+    $result = mysqli_query($conn,$query);
+
+    // Fetch data
+    $projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($projects);
+
+    mysqli_free_result($result);
+
 
 // Close connection
 mysqli_close($conn);
@@ -98,6 +117,7 @@ mysqli_close($conn);
         padding:20px;
         padding-top:10px;
         box-shadow: 3px 3px 3px 3px #888888;
+        height:100%;
     }
 
     .task-item{
@@ -111,6 +131,15 @@ mysqli_close($conn);
     <h3>To Do</h3>
     <?php foreach ($todo as $task_todo) :?>
         <div class = "task-item">
+    <?php 
+        foreach($projects as $project){
+        if($project['task_id'] == $task_todo['task_id']){
+        ?>
+        <h4>Project Name: <?php echo $project['project_name'];?></h4>
+        <?php
+        }
+    } 
+    ?>
             <h3><?php echo $task_todo['task_content'] ;?></h3>
             <h4>Assigned to <?php echo $task_todo['staff_name'];?></h4>
             <small>Due on <?php echo $task_todo['Deadline'];?></small>
@@ -142,6 +171,15 @@ mysqli_close($conn);
     <h3>Ongoing</h3>
     <?php foreach ($ongoing as $task_ongoing) :?>
     <div class = "task-item">
+    <?php 
+        foreach($projects as $project){
+        if($project['task_id'] == $task_ongoing['task_id']){
+        ?>
+        <h4>Project Name: <?php echo $project['project_name'];?></h4>
+        <?php
+        }
+    } 
+    ?>
         <h3><?php echo $task_ongoing['task_content'] ;?></h3>
         <h4>Assigned to <?php echo $task_ongoing['staff_name'];?></h4>
         <small>Due on <?php echo $task_ongoing['Deadline'];?></small>
@@ -173,6 +211,15 @@ mysqli_close($conn);
     <h3>Done</h3>
     <?php foreach ($done as $task_done) :?>
     <div class = "task-item">
+    <?php 
+        foreach($projects as $project){
+        if($project['task_id'] == $task_done['task_id']){
+        ?>
+        <h4>Project Name: <?php echo $project['project_name'];?></h4>
+        <?php
+        }
+    } 
+    ?>
         <h3><?php echo $task_done['task_content'] ;?></h3>
         <h4>Assigned to <?php echo $task_done['staff_name'];?></h4>
         <small>Due on <?php echo $task_done['Deadline'];?></small>

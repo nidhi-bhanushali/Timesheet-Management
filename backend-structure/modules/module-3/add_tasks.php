@@ -125,7 +125,7 @@ mysqli_free_result($result);
     </style>
 
     <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-    <select id="projects" name="projects">
+    <select id="projects" name="project_name">
         <option>Choose project</option>
         <?php
         foreach($projects as $project){
@@ -149,7 +149,7 @@ mysqli_free_result($result);
         </select>
         <br>
         <label>Deadline: </label>
-        <input type="date" name="input1" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"/>
+        <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"/>
         <br>
         <?php
         foreach($data as $data) {

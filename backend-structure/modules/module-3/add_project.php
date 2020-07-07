@@ -4,9 +4,6 @@
 
 
     if(isset($_POST['submit'])){
-		// print_r($_POST);
-        // $name = htmlentities($_POST['name']);
-        // echo $name;
         $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
 		$client_name = mysqli_real_escape_string($conn, $_POST['client_name']);
         $status = mysqli_real_escape_string($conn,$_POST['status']);

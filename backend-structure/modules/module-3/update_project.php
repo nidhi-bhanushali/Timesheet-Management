@@ -90,9 +90,9 @@
         <input type="text" name="client_name" placeholder = "Enter Client name..."  value = "<?php echo $project['client_name'];?>">
         <br>
         <select name="status" id="">
-        <option value="<?php echo $project['status'];?>">To Do</option>
-        <option value="<?php echo $project['status'];?>">Ongoing</option>
-        <option value="<?php echo $project['status'];?>">Done</option>
+        <option value="<?php echo $project['status'];?>"<?php if($project['status']=='to do') echo 'selected="selected"'; ?>>To Do</option>
+        <option value="<?php echo $project['status'];?>"<?php if($project['status']=='ongoing') echo 'selected="selected"'; ?>>Ongoing</option>
+        <option value="<?php echo $project['status'];?>"<?php if($project['status']=='done') echo 'selected="selected"'; ?>>Done</option>
         </select>
         <br>
         <input type="number" name="amount" placeholder = "Enter Amount..."  value = "<?php echo $project['amount'];?>">
@@ -101,11 +101,11 @@
         <br>
         <input type="number" name="amount_pending" placeholder = "Enter Amount pending..."  value = "<?php echo $project['amount_pending'];?>">
         <br>
-        <input type="text" name="start_date" placeholder = "Enter Start Date..."  value = "<?php echo $project['start_date'];?>">
+        <input type="date" name="start_date" placeholder = "Enter Start Date..."  value = "<?php echo $project['start_date'];?>">
         <br>
-        <input type="text" name="end_date" placeholder = "Enter End Date..."  value = "<?php echo $project['end_date'];?>">     
+        <input type="date" name="end_date" placeholder = "Enter End Date..."  value = "<?php echo $project['end_date'];?>">     
         <br> 
-        <input type="text" name="hosting_date" placeholder = "Enter Hosting Date..."  value = "<?php echo $project['hosting_date'];?>">
+        <input type="date" name="hosting_date" placeholder = "Enter Hosting Date..."  value = "<?php echo $project['hosting_date'];?>">
         <br>
         <button type="submit" name = "submit">Submit</button>
         <input type="hidden" name="update_id" value="<?php echo $project['project_id']; ?>">
