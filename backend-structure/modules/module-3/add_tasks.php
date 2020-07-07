@@ -2,6 +2,7 @@
 require('../../include/common/config.php');
 
 if(isset($_POST['submit'])){
+    $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
     $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
     $task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
     $progress = mysqli_real_escape_string($conn,$_POST['progress']);
@@ -28,11 +29,6 @@ if(isset($_POST['submit'])){
         echo $row[$i];
         array_push($id , $row[$i]);
     }
-    print_r($id);
-    mysqli_free_result($result);
-    $staff_id = implode(" , ",$id);
-    echo $staff_id;
-    
 
     $query = "SELECT project_id FROM projects WHERE
                 project_name = '$project_name'LIMIT 1";
@@ -53,7 +49,7 @@ if(isset($_POST['submit'])){
     $row = mysqli_fetch_array($result);
     $progress_id = $row[0];
     }
-    echo $project_id;
+    echo $progress_id;
     mysqli_free_result($result);
 
         $sql = "INSERT INTO tasks(task_content , Deadline , project_id , progress_id)
@@ -74,21 +70,16 @@ if(isset($_POST['submit'])){
 }
 }
 
-$query = 'SELECT * FROM staff where (role_id != 1)';
-$result = mysqli_query( $conn , $query );
-$data = mysqli_fetch_all($result , MYSQLI_ASSOC);
-mysqli_free_result($result);
-
 
 // Fetching progress
 $query = "SELECT * FROM progress";
     
-    $result = mysqli_query($conn,$query);
+$result = mysqli_query($conn,$query);
 
-    $progress = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    //var_dump($progress);
+$progress = mysqli_fetch_all($result , MYSQLI_ASSOC);
+//var_dump($progress);
 
-    mysqli_free_result($result);
+mysqli_free_result($result);
 
 // Fetching project names
 $query = "SELECT * FROM projects";
@@ -97,6 +88,14 @@ $result = mysqli_query($conn,$query);
 
 $projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
 //var_dump($projects);
+
+// Fetching roles
+$query = "SELECT * FROM roles";
+    
+$result = mysqli_query($conn,$query);
+
+$roles = mysqli_fetch_all($result , MYSQLI_ASSOC);
+//var_dump($roles);
 
 mysqli_free_result($result);
 ?>
@@ -133,12 +132,12 @@ mysqli_free_result($result);
             echo "<option value = '$project'>$project</option>";
         }
         ?>
-        </select>
+    </select>
         <br>
         <label>Task Name: </label>
         <input type="text" name="task_name" placeholder = "Enter task...">
         <br>
-        <select id="roles" name="progress">
+    <select id="progress" name="progress">
         <option>Choose progress</option>
         <?php
         foreach($progress as $progress){
@@ -146,15 +145,47 @@ mysqli_free_result($result);
             echo "<option value = '$progress'>$progress</option>";
         }
         ?>
-        </select>
+    </select>
         <br>
+
         <label>Deadline: </label>
         <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"/>
         <br>
+
+    <select id="roles" name="role_name">
+        <option>Choose role</option>
         <?php
-        foreach($data as $data) {
-        echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'] ;
+        foreach($roles as $role_name){
+            $role_name = $role_name['role_name'];
+            echo "<option value = '$role_name'>$role_name</option>";
         }
+        ?>
+        </select>
+        <button id="Filter">Go</button>
+        <?php
+            $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
+            if (!empty($role_name)) {
+             $query1 = "SELECT role_id FROM roles WHERE
+             role_name = '$role_name'LIMIT 1";
+            // echo $query1;
+             $result = mysqli_query($conn,$query1);
+             if ($result !== false){
+             $row = mysqli_fetch_array($result);
+             $role_id = $row[0];
+             }
+            // echo $role_id;
+             mysqli_free_result($result);
+             
+            if (!empty($role_id)) {
+            $query1 = "SELECT * FROM staff where role_id = '$role_id'";
+            $result = mysqli_query( $conn , $query1 );
+            $data = mysqli_fetch_all($result , MYSQLI_ASSOC);
+            mysqli_free_result($result);
+            foreach($data as $data) {
+            echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'];
+            }
+        }
+    }
         ?>
         <br>
         <br>

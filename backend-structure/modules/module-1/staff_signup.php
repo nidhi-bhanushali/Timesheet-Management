@@ -46,7 +46,7 @@
     $result = mysqli_query($conn,$query);
 
     $roles = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    var_dump($roles);
+    //var_dump($roles);
 
     mysqli_free_result($result);
 
