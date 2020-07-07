@@ -42,20 +42,6 @@
          echo $client_id;
          mysqli_free_result($result);
 
-        //  $query = "SELECT project_id FROM projects WHERE
-        //            project_name = '$project_name' LIMIT 1";
-        // echo $query;
-        // $result = mysqli_query($conn,$query);
-        // if ($result !== false){
-        //    $row = mysqli_fetch_array($result);
-        //    $project_id = $row[0];
-        // }
-        // echo $project_id;
-        // mysqli_free_result($result);
-                
-        
-        
-
         $query1 = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id) 
         VALUES('$project_name' , '$client_name' , '$status' , '$amount' , '$amount_paid', '$amount_pending' ,'$start_date' ,'$end_date' , '$hosting_date' , '$staff_admin_id' )";
         if(mysqli_query($conn, $query1)){
@@ -68,6 +54,15 @@
 			echo 'ERROR: '. mysqli_error($conn);
 		}
     }
+
+    $query = "SELECT * FROM clients";
+    
+    $result = mysqli_query($conn,$query);
+    
+    $clients = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    // var_dump($clients);
+    
+    mysqli_free_result($result);
 
     
 
@@ -100,7 +95,15 @@
         
         <input type="text" name="project_name" placeholder = "Enter Project name...">
         <br>
-        <input type="text" name="client_name" placeholder = "Enter Client name...">
+        <select id="clients" name="clients">
+        <option>Choose client</option>
+        <?php
+        foreach($clients as $client){
+            $client = $client['client_name'];
+            echo "<option value = '$client'>$client</option>";
+        }
+        ?>
+        </select>
         <br>
         <select name="status" id="">
         <option value="to do">To Do</option>
@@ -114,11 +117,11 @@
         <br>
         <input type="number" name="amount_pending" placeholder = "Enter Amount pending...">
         <br>
-        <input type="text" name="start_date" placeholder = "Enter Start Date...">
+        <input type="date" name="start_date" placeholder = "Enter Start Date...">
         <br>
-        <input type="text" name="end_date" placeholder = "Enter End Date...">     
+        <input type="date" name="end_date" placeholder = "Enter End Date...">     
         <br> 
-        <input type="text" name="hosting_date" placeholder = "Enter Hosting Date...">
+        <input type="date" name="hosting_date" placeholder = "Enter Hosting Date...">
         <br>
         <button type="submit" name = "submit">Submit</button>
         <br>

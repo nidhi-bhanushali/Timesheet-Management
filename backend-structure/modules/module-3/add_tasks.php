@@ -149,7 +149,7 @@ mysqli_free_result($result);
         </select>
         <br>
         <label>Deadline: </label>
-        <input type="text" name="deadline" placeholder = "Enter deadline...">
+        <input type="date" name="input1" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"/>
         <br>
         <?php
         foreach($data as $data) {
