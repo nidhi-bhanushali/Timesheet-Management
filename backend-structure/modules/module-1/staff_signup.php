@@ -16,6 +16,11 @@
         $role_name = mysqli_real_escape_string($conn,$_POST['role_name']);
         echo $role_name;
 
+        $fileName = rand(1000,10000)."-".$_FILES['file']['name'];
+        $tname = $_FILES['file']['tmp_name'];
+        $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads'; 
+        move_uploaded_file($tname , $upload_dir.'/'.$fileName);
+
 
         $query = "SELECT role_id FROM roles WHERE
                 role_name = '$role_name'LIMIT 1";
@@ -30,8 +35,8 @@
         // echo $role_id;
         
 
-        $query = "INSERT INTO staff(staff_name,email,contact,address,password,role_id) 
-                  VALUES('$name', '$email', '$contact','$address','$password',$role_id)";
+        $query = "INSERT INTO staff(staff_name,email,contact,address,password,role_id,document_url) 
+                  VALUES('$name', '$email', '$contact','$address','$password',$role_id,'$fileName')";
 
         if(mysqli_query($conn, $query)){
 			header('Location: '.ROOT_URL.'');
@@ -75,7 +80,7 @@
         }
     </style>
 
-    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
+    <form method="post" class="form" enctype = "multipart/form-data">
         <label>Name: </label><br>
         <input type="text" name="name" placeholder = "Enter name...">
         <br>
@@ -100,6 +105,8 @@
         <br>
         <label>password </label>
         <input type="password" name="password" placeholder = "Enter password...">
+        <br>
+        <input type="file" name = "file">
         <br>
         <br>
         <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>

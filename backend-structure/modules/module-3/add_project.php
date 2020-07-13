@@ -15,6 +15,13 @@
         $end_date = mysqli_real_escape_string($conn,$_POST['end_date']);
         $hosting_date = mysqli_real_escape_string($conn,$_POST['hosting_date']);
         echo $amount;
+
+
+        $fileName2 = rand(100,1000)."-".$_FILES['file1']['name'];
+        
+        $tname = $_FILES['file1']['tmp_name'];
+        $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads2'; 
+        move_uploaded_file($tname , $upload_dir.'/'.$fileName2);
         // echo $role_id;
 
         $query = "SELECT staff_id FROM staff WHERE
@@ -39,8 +46,8 @@
          echo $client_id;
          mysqli_free_result($result);
 
-        $query1 = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id) 
-        VALUES('$project_name' , '$client_name' , '$status' , '$amount' , '$amount_paid', '$amount_pending' ,'$start_date' ,'$end_date' , '$hosting_date' , '$staff_admin_id' )";
+        $query1 = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id , document_url) 
+        VALUES('$project_name' , '$client_name' , '$status' , '$amount' , '$amount_paid', '$amount_pending' ,'$start_date' ,'$end_date' , '$hosting_date' , '$staff_admin_id','$fileName2' )";
         if(mysqli_query($conn, $query1)){
         	$project_id = mysqli_insert_id($conn);
         }
@@ -51,7 +58,7 @@
 			echo 'ERROR: '. mysqli_error($conn);
 		}
     }
-
+    
     $query = "SELECT * FROM clients";
     
     $result = mysqli_query($conn,$query);
@@ -92,7 +99,7 @@
         
         <input type="text" name="project_name" placeholder = "Enter Project name...">
         <br>
-        <select id="clients" name="clients">
+        <select id="clients" name="client_name">
         <option>Choose client</option>
         <?php
         foreach($clients as $client){
@@ -121,6 +128,8 @@
         <input type="date" name="hosting_date" placeholder = "Enter Hosting Date...">
         <br>
         <button type="submit" name = "submit">Submit</button>
+        <br>
+        <input type="file" name = "file1">
         <br>
         <button type="submit" name = "submit"><a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_tasks.php'?>">Assign Tasks</button>
     </form>

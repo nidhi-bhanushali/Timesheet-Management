@@ -8,6 +8,13 @@ if(isset($_POST['submit'])){
     $progress = mysqli_real_escape_string($conn,$_POST['progress']);
     echo $progress;
     $deadline = mysqli_real_escape_string($conn,$_POST['deadline']);
+
+    $fileName1 = rand(1000,10000)."-".$_FILES['file']['name'];
+    $tname = $_FILES['file']['tmp_name'];
+    $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads1';
+    move_uploaded_file($tname , $upload_dir.'/'.$fileName1);
+
+
     if(!empty($_POST['check_list'])){
         $checkbox = $_POST['check_list'];
         $checked=[];
@@ -52,8 +59,8 @@ if(isset($_POST['submit'])){
     echo $progress_id;
     mysqli_free_result($result);
 
-        $sql = "INSERT INTO tasks(task_content , Deadline , project_id , progress_id)
-                VALUES( '$task_name','$deadline' , '$project_id' , '$progress_id')";
+        $sql = "INSERT INTO tasks(task_content , Deadline , project_id , progress_id,document_url)
+                VALUES( '$task_name','$deadline' , '$project_id' , '$progress_id','$fileName')";
         if(mysqli_query($conn ,$sql)){
                 $task_id = mysqli_insert_id($conn);
             for($j = 0 ; $j < count($id) ; $j++){
@@ -123,6 +130,19 @@ mysqli_free_result($result);
         }
     </style>
 
+    <form method="post">
+    <select id="roles" name="role_name">
+        <option>Choose role</option>
+        <?php
+        foreach($roles as $role_name){
+            $role_name = $role_name['role_name'];
+            echo "<option value = '$role_name'>$role_name</option>";
+        }
+        ?>
+        </select>
+        <button id="Filter" name = "go">Go</button>
+    </form>
+
     <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
     <select id="projects" name="project_name">
         <option>Choose project</option>
@@ -152,17 +172,9 @@ mysqli_free_result($result);
         <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"/>
         <br>
 
-    <select id="roles" name="role_name">
-        <option>Choose role</option>
+    
         <?php
-        foreach($roles as $role_name){
-            $role_name = $role_name['role_name'];
-            echo "<option value = '$role_name'>$role_name</option>";
-        }
-        ?>
-        </select>
-        <button id="Filter">Go</button>
-        <?php
+        if(isset($_POST['go'])){
             $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
             if (!empty($role_name)) {
              $query1 = "SELECT role_id FROM roles WHERE
@@ -185,8 +197,12 @@ mysqli_free_result($result);
             echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'];
             }
         }
+    
+        }
     }
         ?>
+        <br>
+        <input type="file" name = "file">
         <br>
         <br>
         <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>
