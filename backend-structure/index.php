@@ -13,7 +13,7 @@
         echo $query;
          $result = mysqli_query($conn,$query);
          $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
-         var_dump($employees);
+         //var_dump($employees);
          
          $count = mysqli_num_rows($result);
          mysqli_free_result($result);
