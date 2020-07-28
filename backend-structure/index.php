@@ -5,7 +5,7 @@
     if(isset($_POST['submit'])){
         // $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
-        $password = mysqli_real_escape_string($conn,$_POST['password']);
+        $password = mysqli_real_escape_string($conn,$_POST['password']); 
         // echo $role_id;
      
 
@@ -14,12 +14,10 @@
          $result = mysqli_query($conn,$query);
          $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
          //var_dump($employees);
-         
          $count = mysqli_num_rows($result);
          mysqli_free_result($result);
 
-         foreach($employees as $employee){
-            
+         foreach($employees as $employee){           
             $staff_id = $employee['staff_id'];
             if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
                 header( "location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
@@ -29,8 +27,7 @@
                 echo 'invalid credentials'; 
             }
         }
-    }
-       
+    }      
 ?>
 
 <!DOCTYPE html>

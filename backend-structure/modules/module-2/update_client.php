@@ -2,9 +2,6 @@
     require('../../include/common/config.php');
 
     if(isset($_POST['submit'])){
-		// print_r($_POST);
-        // $name = htmlentities($_POST['name']);
-        // echo $name;
         $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
         $name = mysqli_real_escape_string($conn, $_POST['name']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -18,7 +15,7 @@
                     email='$email',
                     address = '$address',
                     project_name = '$project_name' 
-            WHERE client_id = {$update_id}";
+                    WHERE client_id = {$update_id}";
 
         if(mysqli_query($conn, $query)){
 			header('Location:  http://localhost/Timesheet/backend-structure/show_client.php');
@@ -37,7 +34,7 @@
           
           // Fetch Data
           $client = mysqli_fetch_assoc($result);
-          var_dump($client);
+          //var_dump($client);
       
           // Free Result
           mysqli_free_result($result);

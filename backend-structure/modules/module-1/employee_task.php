@@ -3,18 +3,18 @@
 
     
     if($_GET){
-        $staff_id = $_GET['id']; // print_r($_GET);       
+        $staff_id = $_GET['id']; // print_r($_GET);        
     }else{
       echo "Url has no user";
     }
 
-
+    // Getting tasks alloted to individual staff member according to his id
     $query = "SELECT * FROM task_staff_junc
               JOIN tasks
               ON task_staff_junc.task_id = tasks.task_id
               JOIN progress
               ON tasks.progress_id = progress.progress_id
-              WHERE staff_id = '$staff_id'";
+              WHERE staff_id = '$staff_id'";  
 
     // Result
     $result = mysqli_query($conn,$query);

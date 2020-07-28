@@ -6,15 +6,16 @@ if(isset($_POST['submit'])){
     $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
     $task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
     $progress = mysqli_real_escape_string($conn,$_POST['progress']);
-    echo $progress;
+    // echo $progress;
     $deadline = mysqli_real_escape_string($conn,$_POST['deadline']);
 
+    // file upload
     $fileName1 = rand(1000,10000)."-".$_FILES['file']['name'];
     $tname = $_FILES['file']['tmp_name'];
     $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads1';
     move_uploaded_file($tname , $upload_dir.'/'.$fileName1);
 
-
+    // Multiple checkbox 
     if(!empty($_POST['check_list'])){
         $checkbox = $_POST['check_list'];
         $checked=[];
@@ -22,43 +23,48 @@ if(isset($_POST['submit'])){
         foreach($checkbox as $selected){
             array_push($checked,$selected);
         }
-        print_r($checked);
+        // print_r($checked);
     }
     
     $id = [];
     $i = 0;
+    // Getting staff id of each staff member whose checkbox is ticked
     foreach($checkbox as $checkbox){
         $query = "SELECT staff_id from staff WHERE 
                 staff_name = '$checkbox'";
-        echo $query;
+        //echo $query;
         $result = mysqli_query($conn,$query);
         $row = mysqli_fetch_array($result);
-        echo $row[$i];
+        //echo $row[$i];
         array_push($id , $row[$i]);
     }
 
+    // getting project id using project name
     $query = "SELECT project_id FROM projects WHERE
                 project_name = '$project_name'LIMIT 1";
-    echo $query;
+    //echo $query;
     $result = mysqli_query($conn,$query);
     if ($result !== false){
     $row = mysqli_fetch_array($result);
     $project_id = $row[0];
     }
-    echo $project_id;
+    //echo $project_id;
     mysqli_free_result($result);
 
+    // getting progress id 
     $query = "SELECT progress_id FROM progress WHERE
     progress = '$progress'LIMIT 1";
-    echo $query;
+    //echo $query;
     $result = mysqli_query($conn,$query);
     if ($result !== false){
     $row = mysqli_fetch_array($result);
     $progress_id = $row[0];
     }
-    echo $progress_id;
+    //echo $progress_id;
     mysqli_free_result($result);
 
+
+        // Inserting task info
         $sql = "INSERT INTO tasks(task_content , Deadline , project_id , progress_id,document_url)
                 VALUES( '$task_name','$deadline' , '$project_id' , '$progress_id','$fileName')";
         if(mysqli_query($conn ,$sql)){
@@ -78,7 +84,7 @@ if(isset($_POST['submit'])){
 }
 
 
-// Fetching progress
+// Fetching progress for dropdown
 $query = "SELECT * FROM progress";
     
 $result = mysqli_query($conn,$query);
@@ -88,7 +94,7 @@ $progress = mysqli_fetch_all($result , MYSQLI_ASSOC);
 
 mysqli_free_result($result);
 
-// Fetching project names
+// Fetching project names for dropdown
 $query = "SELECT * FROM projects";
     
 $result = mysqli_query($conn,$query);
@@ -96,7 +102,7 @@ $result = mysqli_query($conn,$query);
 $projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
 //var_dump($projects);
 
-// Fetching roles
+// Fetching roles for dropdown
 $query = "SELECT * FROM roles";
     
 $result = mysqli_query($conn,$query);

@@ -4,18 +4,15 @@
 
 
     if(isset($_POST['submit'])){
-		// print_r($_POST);
-        // $name = htmlentities($_POST['name']);
-        // echo $name;
         $name = mysqli_real_escape_string($conn, $_POST['name']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
         $contact = mysqli_real_escape_string($conn,$_POST['contact']);
         $address = mysqli_real_escape_string($conn,$_POST['address']);
         $project_name = mysqli_real_escape_string($conn,$_POST['project_name']);
-        echo $address;
+        //echo $address;
         // echo $role_id;
         
-
+        // inserting client info
         $query = "INSERT INTO clients(client_name , email , contact , address , project_name) VALUES('$name' , '$email' , '$contact' , '$address' , '$project_name')";
 
         if(mysqli_query($conn, $query)){

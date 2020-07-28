@@ -4,24 +4,22 @@
 
 
     if(isset($_POST['submit'])){
-		// print_r($_POST);
-        // $name = htmlentities($_POST['name']);
-        // echo $name;
         $name = mysqli_real_escape_string($conn, $_POST['name']);
 		$email = mysqli_real_escape_string($conn, $_POST['email']);
         $contact = mysqli_real_escape_string($conn,$_POST['contact']);
         $address = mysqli_real_escape_string($conn,$_POST['address']);
-        echo $address;
+        //echo $address;
         $password = mysqli_real_escape_string($conn,$_POST['password']);
         $role_name = mysqli_real_escape_string($conn,$_POST['role_name']);
-        echo $role_name;
+        //echo $role_name;
 
+        // File upload
         $fileName = rand(1000,10000)."-".$_FILES['file']['name'];
         $tname = $_FILES['file']['tmp_name'];
         $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads'; 
         move_uploaded_file($tname , $upload_dir.'/'.$fileName);
 
-
+        // Getting the role_id from role_name
         $query = "SELECT role_id FROM roles WHERE
                 role_name = '$role_name'LIMIT 1";
         echo $query;
@@ -35,6 +33,7 @@
         // echo $role_id;
         
 
+        //  query for inserting staff info 
         $query = "INSERT INTO staff(staff_name,email,contact,address,password,role_id,document_url) 
                   VALUES('$name', '$email', '$contact','$address','$password',$role_id,'$fileName')";
 
@@ -45,7 +44,7 @@
 		}
     } 
 
-    
+    // Fetching all the roles for dropdown
     $query = "SELECT * FROM roles";
     
     $result = mysqli_query($conn,$query);

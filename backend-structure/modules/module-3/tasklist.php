@@ -21,7 +21,7 @@
 
     // Fetch data
     $notes = mysqli_fetch_all($result , MYSQLI_ASSOC);
-    var_dump($notes);
+    //var_dump($notes);
 
     mysqli_free_result($result);
 
@@ -110,33 +110,6 @@
 
     <br>
     <br>
-
-    <h3>Comments</h3>
-    <?php $count = 1 ?>
-    <div class = "notes">
-    <?php foreach ($comments as $comment) :?>
-        <div class = "note-item">
-            <h4>Note <?php echo $count ?></h4>
-            <h3><?php echo $comment['comment_content'] ;?></h3>
-            <h4> Put up for <?php echo $comment['task_content'];?></h4>
-        </div>
-        <?php $count++; ?>
-    <?php endforeach;?>
-    </div>
-    
-    <h3>Notes</h3>
-    <?php $count = 1 ?>
-    <div class = "notes">
-    <?php foreach ($notes as $note) :?>
-        <div class = "note-item">
-            <h4>Note <?php echo $count ?></h4>
-            <h3><?php echo $note['notes_content'] ;?></h3>
-            <h4> Put up by <?php echo $note['staff_name'];?></h4>
-        </div>
-        <?php $count++; ?>
-    <?php endforeach;?>
-
-    </div>
 
 </body>
 </html>

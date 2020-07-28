@@ -8,6 +8,7 @@
 		$task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
         $note_content = mysqli_real_escape_string($conn,$_POST['note_content']);
         
+        // Get staff id 
         $sql1 = "SELECT staff_id FROM staff WHERE
         staff_name = '$staff_name'LIMIT 1";
         echo $sql1;
@@ -18,6 +19,8 @@
         }
         mysqli_free_result($result);
 
+
+        // getting task id of the tasks for which the note is put
         $sql2 = "SELECT task_id FROM tasks WHERE
         task_content = '$task_name'LIMIT 1";
         echo $sql2;
@@ -29,7 +32,7 @@
         mysqli_free_result($result);
 
 
-
+        // Inserting notes in database
         $query = "INSERT INTO notes(notes_content , staff_id , task_id) VALUES('$note_content' , '$staff_id' , '$task_id')";
 
         if(mysqli_query($conn, $query)){

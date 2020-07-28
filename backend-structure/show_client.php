@@ -9,7 +9,7 @@
 
     // Fetch data
     $clients = mysqli_fetch_all($result , MYSQLI_ASSOC);
-     //var_dump($students);
+     //var_dump($clients);
 
     mysqli_free_result($result);
 
@@ -48,7 +48,6 @@
             <th>email</th>
             <th>project_name</th>
             <th>Edit</th>
-            <th>Delete</th>
             <?php foreach($clients as $client):?>
                 <tr>
                     <td><?php echo $client['client_id'] ;?></td>
@@ -58,8 +57,6 @@
                     <td><?php echo $client['email'] ;?></td>
                     <td><?php echo $client['project_name'] ;?></td>
                     <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>update_client.php?id=<?php echo $client['client_id']; ?>">Edit</a></button></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>remove_client.php?id=<?php echo $client['client_id']; ?>">Delete</a></button></td>
-
                 </tr>    
             <?php endforeach?>
             <br>

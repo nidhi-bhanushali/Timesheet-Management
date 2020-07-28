@@ -1,7 +1,7 @@
 <?php
     require('include/common/config.php');
 
-    // Query
+    // getting all the projects
     $query = 'SELECT * FROM projects ORDER BY client_name';
 
     // Result
@@ -52,7 +52,6 @@
             <th>start_date</th>
             <th>start_date</th>
             <th>Edit</th>
-            <th>Delete</th>
             <?php foreach($projects as $project):?>
                 <tr>
                     <td><?php echo $project['project_id'] ;?></td>
@@ -66,8 +65,6 @@
                     <td><?php echo $project['end_date'] ;?></td>
                     <td><?php echo $project['hosting_date'] ;?></td>
                     <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/' ?>update_project.php?id=<?php echo $project['project_id']; ?>">Edit</a></button></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/' ?>remove_project.php?id=<?php echo $project['project_id']; ?>">Delete</a></button></td>
-
                 </tr>    
             <?php endforeach?>
             <br>

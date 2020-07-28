@@ -37,24 +37,24 @@ if(isset($_POST['submit'])){
 
     $query = "SELECT project_id  FROM projects WHERE
                 project_name = '$project_name'LIMIT 1";
-    echo $query;
+    //echo $query;
     $result = mysqli_query($conn,$query);
     if ($result !== false){
     $row = mysqli_fetch_array($result);
     $project_id = $row[0];
     }
-    echo $project_id;
+    //echo $project_id;
     mysqli_free_result($result);
 
     $query = "SELECT progress_id FROM progress WHERE
     progress = '$progress'LIMIT 1";
-    echo $query;
+    //echo $query;
     $result = mysqli_query($conn,$query);
     if ($result !== false){
     $row = mysqli_fetch_array($result);
     $progress_id = $row[0];
     }
-    echo $project_id;
+    //echo $progress_id;
     mysqli_free_result($result);
 
         $sql = "UPDATE tasks SET
@@ -66,9 +66,17 @@ if(isset($_POST['submit'])){
         if(mysqli_query($conn ,$sql)){
                 $task_id = mysqli_insert_id($conn);
             for($j = 0 ; $j < count($id) ; $j++){
-                $query = "INSERT INTO staff_project_junc(staff_id , project_id) VALUES('" . $id[$j] . "' , '$project_id')";
+                $query = "UPDATE staff_project_junc SET
+                        staff_id = {$id[$j]},
+                        project_id = {$project_id}
+                        WHERE task_id = {$update_id}";
+                
+                // (staff_id , project_id) VALUES('" . $id[$j] . "' , '$project_id')
                 if(mysqli_query($conn, $query)){
-                    $query1 = "INSERT INTO task_staff_junc(staff_id , task_id) VALUES('" . $id[$j] . "' , '$task_id' )";
+                    $query1 = "UPDATE task_staff_junc SET
+                    staff_id = {$id[$j]},
+                    task_id = {$task_id}
+                    WHERE task_id = {$update_id}";
                     if(mysqli_query($conn, $query1)){
                         header('Location:  http://localhost/Timesheet/backend-structure/show_project.php');
                     } else {

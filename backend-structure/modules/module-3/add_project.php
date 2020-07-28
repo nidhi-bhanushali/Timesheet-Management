@@ -7,16 +7,16 @@
         $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
 		$client_name = mysqli_real_escape_string($conn, $_POST['client_name']);
         $status = mysqli_real_escape_string($conn,$_POST['status']);
-        echo $status;
+        //echo $status;
         $amount = mysqli_real_escape_string($conn,$_POST['amount']);
         $amount_paid = mysqli_real_escape_string($conn,$_POST['amount_paid']);
         $amount_pending = mysqli_real_escape_string($conn,$_POST['amount_pending']);
         $start_date = mysqli_real_escape_string($conn,$_POST['start_date']);
         $end_date = mysqli_real_escape_string($conn,$_POST['end_date']);
         $hosting_date = mysqli_real_escape_string($conn,$_POST['hosting_date']);
-        echo $amount;
+        //echo $amount;
 
-
+        // File upload
         $fileName2 = rand(100,1000)."-".$_FILES['file1']['name'];
         
         $tname = $_FILES['file1']['tmp_name'];
@@ -24,6 +24,8 @@
         move_uploaded_file($tname , $upload_dir.'/'.$fileName2);
         // echo $role_id;
 
+
+        // get admin's staff id 
         $query = "SELECT staff_id FROM staff WHERE
                 role_id = 1 LIMIT 1";
         echo $query;
@@ -32,9 +34,11 @@
             $row = mysqli_fetch_array($result);
             $staff_admin_id = $row[0];
          }
-         echo $staff_admin_id;
+         //echo $staff_admin_id;
          mysqli_free_result($result);
 
+
+        //  Getting client id using client name 
          $query = "SELECT client_id FROM clients WHERE
                 client_name = '$client_name'LIMIT 1";
         echo $query;
@@ -43,9 +47,11 @@
             $row = mysqli_fetch_array($result);
             $client_id = $row[0];
          }
-         echo $client_id;
+         //echo $client_id;
          mysqli_free_result($result);
+        
 
+        // Insert project info
         $query1 = "INSERT INTO projects(project_name , client_name , status , amount , amount_received , amount_pending , start_date , end_date , hosting_date , staff_admin_id , document_url) 
         VALUES('$project_name' , '$client_name' , '$status' , '$amount' , '$amount_paid', '$amount_pending' ,'$start_date' ,'$end_date' , '$hosting_date' , '$staff_admin_id','$fileName2' )";
         if(mysqli_query($conn, $query1)){
@@ -59,6 +65,7 @@
 		}
     }
     
+    // Getting all the clients for dropdown
     $query = "SELECT * FROM clients";
     
     $result = mysqli_query($conn,$query);
@@ -102,6 +109,7 @@
         <select id="clients" name="client_name">
         <option>Choose client</option>
         <?php
+        // dropdown 
         foreach($clients as $client){
             $client = $client['client_name'];
             echo "<option value = '$client'>$client</option>";

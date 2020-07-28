@@ -7,6 +7,7 @@
 		$task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
         $comment_content = mysqli_real_escape_string($conn,$_POST['comment_content']);
 
+        // getting task id 
         $sql2 = "SELECT task_id FROM tasks WHERE
         task_content = '$task_name'LIMIT 1";
         echo $sql2;
@@ -18,7 +19,7 @@
         mysqli_free_result($result);
 
 
-
+        // Insert comments 
         $query = "INSERT INTO comments(comment_content , task_id) VALUES('$comment_content' , '$task_id')";
 
         if(mysqli_query($conn, $query)){
@@ -63,7 +64,7 @@
 
         <br>
         <br>
-        <button type="submit" name = "submit">Add Note</button>
+        <button type="submit" name = "submit">Add Comments</button>
     </form>
 
 
