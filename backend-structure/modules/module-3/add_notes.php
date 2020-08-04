@@ -47,42 +47,49 @@
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Notes</title>
-</head>
-<body>
-<h3>Notes</h3>
-    <style>
-        .form{
-            border: 1px solid black;
-            padding: 10px;
-            width: 200px;
-            display: flex;
-            flex-direction:column;
-            justify-content : center;
-            margin:200px auto ;
-        }
-    </style>
+<?php
+include('../../include/css/header.php');
+?>
+    <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6 offset-md-3">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Comments</h3>
+              </div>
+                <form role="form" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="card-body">
+                  <div class="form-group">
+                  <label>Staff Name: </label>
+                    <input class="form-control" type="text" name="staff_name" placeholder = "Enter staff name...">
+                  </div>
+                  <div class="form-group">
+                  <label>Task Name: </label>
+                    <input class="form-control" type="text" name="task_name" placeholder = "Enter task...">
+                  </div>
+                  <div class="form-group">
+                  <label>Note Content: </label>
+                  <textarea type="text" name="note_content" placeholder = "Enter note..." class="form-control"></textarea>
+                  </div>
+                </div>
+                <!-- /.card-body -->
 
-    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-        <label>Staff Name: </label>
-        <input type="text" name="staff_name" placeholder = "Enter name...">
-        <br>
-        <label>Task Name: </label>
-        <input type="text" name="task_name" placeholder = "Enter task...">
-        <br>
-        <label>Note Content: </label>
-        <textarea type="text" name="note_content" placeholder = "Enter note..."></textarea>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            </div>
+            </div>
+            </div>
+    </section>
+    </div>
 
-        <br>
-        <br>
-        <button type="submit" name = "submit">Add Note</button>
-    </form>
+<?php
+include('../../include/js/footer.php');
+?>
 
-
-</body>
-</html>

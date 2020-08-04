@@ -1,37 +1,30 @@
-<?php
-    require('../../include/common/config.php'); 
+
+ <?php
+    require('../../include/common/config.php');
 
 
     if(isset($_POST['submit'])){
-		
-		$task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
-        $comment_content = mysqli_real_escape_string($conn,$_POST['comment_content']);
+		// print_r($_POST);
+        // $name = htmlentities($_POST['name']);
+        // echo $name;
+        $role_name = mysqli_real_escape_string($conn,$_POST['role_name']);
+        $social_media = mysqli_real_escape_string($conn,$_POST['social_media']);
+        echo $role_name;
+        echo $social_media;
 
-        // getting task id 
-        $sql2 = "SELECT task_id FROM tasks WHERE
-        task_content = '$task_name'LIMIT 1";
-        echo $sql2;
-        $result = mysqli_query($conn,$sql2);
-        if ($result !== false){
-            $row = mysqli_fetch_array($result);
-            $task_id = $row[0];
-        }
-        mysqli_free_result($result);
+        // echo $role_id;
 
-
-        // Insert comments 
-        $query = "INSERT INTO comments(comment_content , task_id) VALUES('$comment_content' , '$task_id')";
+        $query = "INSERT INTO roles(role_name , social_media) VALUES('$role_name' , '$social_media')";
 
         if(mysqli_query($conn, $query)){
-            header('Location: http://localhost/Timesheet/backend-structure/modules/module-3/tasklist.php');
+            header('Location: roles.php');
         } else {
             echo 'ERROR: '. mysqli_error($conn);
         }
+       
     } 
-    
 
 ?>
-
 
 <?php
 include('../../include/css/header.php');
@@ -45,17 +38,17 @@ include('../../include/css/header.php');
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Comments</h3>
+                <h3 class="card-title">Add Roles</h3>
               </div>
                 <form role="form" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="card-body">
                   <div class="form-group">
-                  <label>Task Name: </label>
-                    <input class="form-control" type="text" name="task_name" placeholder = "Enter task...">
+                  <label>Role Name: </label>
+                    <input class="form-control" type="text" name="role_name" placeholder = "Enter role name...">
                   </div>
                   <div class="form-group">
-                  <label>Comment Content: </label>
-                  <textarea type="text" name="comment_content" placeholder = "Enter comment..." class="form-control"></textarea>
+                  <input type="checkbox" name="social_media" class = "checkbox" value="1">
+                  <label>Social Media Manager </label>
                   </div>
                 </div>
                 <!-- /.card-body -->

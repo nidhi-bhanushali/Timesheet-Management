@@ -51,7 +51,7 @@
         }
     </style>
 
-    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
+    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form"> 
         <label>Email: </label><br>
         <input type="email" name="email" placeholder = "Enter email...">
         <br>

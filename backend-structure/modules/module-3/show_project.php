@@ -1,5 +1,5 @@
 <?php
-    require('include/common/config.php');
+    require('../../include/common/config.php');
 
     // getting all the projects
     $query = 'SELECT * FROM projects ORDER BY client_name';
@@ -17,40 +17,27 @@
     mysqli_close($conn);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
-</head>
-<body>
-<style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-    }
-        th, td {
-        padding: 5px;
-    }
-        th {
-        text-align: left;
-    }
-    </style>
-    <div>
-        <h1>Projects</h1>
-        <table>
+<?php 
+    include('../../include/css/header.php');
+?>
+    <div class="content-wrapper">
+    <div class="card">
+      <div class = "card-header">
+      <h1 class= "card-title">Projects</h1>
+      </div>
+      <div class = "card-body">
+        <table class = "table table-striped">
         <tr>
-            <th>project_id</th>
+            <th>Project_id</th>
             <th>Project name</th>
-            <th>client name</th>
-            <th>status</th>
-            <th>amount</th>
-            <th>amount received</th>
-            <th>amount pending</th>
-            <th>start_date</th>
-            <th>start_date</th>
-            <th>start_date</th>
+            <th>Client name</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Amount received</th>
+            <th>Amount pending</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Hosting date</th>
             <th>Edit</th>
             <?php foreach($projects as $project):?>
                 <tr>
@@ -64,14 +51,16 @@
                     <td><?php echo $project['start_date'] ;?></td>
                     <td><?php echo $project['end_date'] ;?></td>
                     <td><?php echo $project['hosting_date'] ;?></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/' ?>update_project.php?id=<?php echo $project['project_id']; ?>">Edit</a></button></td>
+                    <td><button type="button" class="btn btn-block btn-outline-secondary"><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/' ?>update_project.php?id=<?php echo $project['project_id']; ?>">Edit</a></button></td>
                 </tr>    
             <?php endforeach?>
             <br>
         </tr>
     </table>
     </div>
+    </div>
+    </div>
 
-    <button><a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_project.php'?>">Add New Project</button>
-</body>
-</html>
+<?php
+include('../../include/js/footer.php');
+?>

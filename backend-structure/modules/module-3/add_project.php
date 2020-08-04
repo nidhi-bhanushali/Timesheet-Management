@@ -5,7 +5,7 @@
 
     if(isset($_POST['submit'])){
         $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
-		$client_name = mysqli_real_escape_string($conn, $_POST['client_name']);
+		    $client_name = mysqli_real_escape_string($conn, $_POST['client_name']);
         $status = mysqli_real_escape_string($conn,$_POST['status']);
         //echo $status;
         $amount = mysqli_real_escape_string($conn,$_POST['amount']);
@@ -59,7 +59,7 @@
         }
         $query = "INSERT INTO client_project_junc(client_id , project_id) VALUES('$client_id' , '$project_id')";
         if(mysqli_query($conn, $query)){
-			header('Location:  http://localhost/Timesheet/backend-structure/show_project.php');
+			header('Location:  http://localhost/Timesheet/backend-structure/modules/module-3/show_project.php');
 		} else {
 			echo 'ERROR: '. mysqli_error($conn);
 		}
@@ -81,65 +81,108 @@
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
-</head>
-<body>
+<?php
+include('../../include/css/header.php');
+?>
+      <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Project Add</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Project Add</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
-    <style>
-        .form{
-            border: 1px solid black;
-            padding: 10px;
-            width: 200px;
-            display: flex;
-            flex-direction:column;
-            justify-content : center;
-            margin:200px auto ;
-        }
-    </style>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">General</h3>
 
-    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-        
-        <input type="text" name="project_name" placeholder = "Enter Project name...">
-        <br>
-        <select id="clients" name="client_name">
-        <option>Choose client</option>
-        <?php
-        // dropdown 
-        foreach($clients as $client){
-            $client = $client['client_name'];
-            echo "<option value = '$client'>$client</option>";
-        }
-        ?>
-        </select>
-        <br>
-        <select name="status" id="">
-        <option value="to do">To Do</option>
-        <option value="ongoing">Ongoing</option>
-        <option value="done">Done</option>
-        </select>
-        <br>
-        <input type="number" name="amount" placeholder = "Enter Amount...">
-        <br>        
-        <input type="number" name="amount_paid" placeholder = "Enter Amount paid...">
-        <br>
-        <input type="number" name="amount_pending" placeholder = "Enter Amount pending...">
-        <br>
-        <input type="date" name="start_date" placeholder = "Enter Start Date...">
-        <br>
-        <input type="date" name="end_date" placeholder = "Enter End Date...">     
-        <br> 
-        <input type="date" name="hosting_date" placeholder = "Enter Hosting Date...">
-        <br>
-        <button type="submit" name = "submit">Submit</button>
-        <br>
-        <input type="file" name = "file1">
-        <br>
-        <button type="submit" name = "submit"><a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_tasks.php'?>">Assign Tasks</button>
-    </form>
-</body>
-</html>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
+              <div class="form-group">
+                <label for="inputName">Project Name</label>
+                <input type="text" id="inputName" class="form-control" name="project_name">
+              </div>
+              <div class="form-group">
+                <label for="inputStatus">Status</label>
+                <select class="form-control custom-select" name="status" id="">
+                  <option selected disabled>Select one</option>
+                  <option value="to do">To Do</option>
+                  <option value="ongoing">Ongoing</option>
+                  <option value="done">Done</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="inputStatus">Client Name</label>
+                <select class="form-control custom-select" name="client_name">
+                  <option selected disabled>Select one</option>
+                  <?php
+                  // dropdown 
+                  foreach($clients as $client){
+                      $client = $client['client_name'];
+                      echo "<option value = '$client'>$client</option>";
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="totalAmount">Total Amount</label>
+                <input type="number" id="totalAmount" class="form-control" name="amount">
+              </div>
+              <div class="form-group">
+                <label for="paidAmount">Paid Amount</label>
+                <input type="number" id="paidAmount" class="form-control" name="amount_paid">
+              </div>
+              <div class="form-group">
+                <label for="pendingAmount">Pending Amount</label>
+                <input type="number" id="pendingAmount" class="form-control" name="amount_pending">
+              </div>
+              <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" class="form-control" name="start_date">
+              </div>
+              <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" class="form-control" name="end_date">
+              </div>
+              <div class="form-group">
+                <label for="hostingDate">Hosting Date</label>
+                <input type="date" id="hostingDate" class="form-control" name="hosting_date">
+              </div>
+              <div class="form-group">
+                <input type="file" id="file" class="form-control" name="file1">
+              </div>
+              <input type="submit" value="Create new Project" class="btn btn-success float-right" name = "submit">
+            </div>
+            </form>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+<?php
+include('../../include/js/footer.php');
+?>
+

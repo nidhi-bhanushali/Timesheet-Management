@@ -1,5 +1,5 @@
 <?php
-    require('include/common/config.php');
+    require('../../include/common/config.php');
 
     // Query
     $query = 'SELECT * FROM clients ORDER BY client_name';
@@ -15,38 +15,29 @@
 
     // Close connection
     mysqli_close($conn);
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clients</title>
-</head>
-<body>
-<style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-    }
-        th, td {
-        padding: 5px;
-    }
-        th {
-        text-align: left;
-    }
-    </style>
-    <div>
-        <h1>Clients</h1>
-        <table>
+
+<?php 
+    include('../../include/css/header.php');
+?>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+  <div class="card">
+      <div class = "card-header">
+        <h3 class = "card-title">Clients</h3>
+      </div>
+      <div class = "card-body">
+        <table class="table table-striped">
         <tr>
-            <th>client_id</th>
-            <th>name</th>
-            <th>contact</th>
-            <th>address</th>
-            <th>email</th>
-            <th>project_name</th>
+            <th>Client_id</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Project_name</th>
             <th>Edit</th>
             <?php foreach($clients as $client):?>
                 <tr>
@@ -56,12 +47,18 @@
                     <td><?php echo $client['address'] ;?></td>
                     <td><?php echo $client['email'] ;?></td>
                     <td><?php echo $client['project_name'] ;?></td>
-                    <td><button><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>update_client.php?id=<?php echo $client['client_id']; ?>">Edit</a></button></td>
+                    <td><button type="button" class="btn btn-block btn-outline-secondary"><a href="<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/' ?>update_client.php?id=<?php echo $client['client_id']; ?>">Edit</a></button></td>
                 </tr>    
             <?php endforeach?>
             <br>
         </tr>
     </table>
     </div>
-</body>
-</html>
+    </div>
+  <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+    
+<?php
+include('../../include/js/footer.php');
+?>

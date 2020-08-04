@@ -1,5 +1,5 @@
 <?php
-    require('../../include/common/config.php');
+    require('../../include/common/config.php'); 
 
     
     if($_GET){
@@ -30,29 +30,16 @@
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clients</title>
-</head>
-<body>
-<style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-    }
-        th, td {
-        padding: 5px;
-    }
-        th {
-        text-align: left;
-    }
-    </style>
-    <div>
-        <h1>Your Tasks</h1>
-        <table>
+<?php 
+    include('../../include/css/header.php');
+?>
+    <div class="content-wrapper">
+    <div class="card">
+      <div class = "card-header">
+      <h1 class= "card-title">Projects</h1>
+      </div>
+      <div class = "card-body">
+        <table class = "table table-striped">
         <tr>
             <th>Task Content</th>
             <th>Deadline</th>
@@ -68,6 +55,9 @@
         </tr>
     </table>
     </div>
-</body>
-</html>
+    </div>
+    </div>
 
+<?php
+include('../../include/js/footer.php');
+?>
