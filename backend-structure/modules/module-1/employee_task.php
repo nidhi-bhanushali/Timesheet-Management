@@ -1,6 +1,9 @@
 <?php
     require('../../include/common/config.php'); 
 
+    session_start();
+
+    if (isset($_SESSION['user'])) {
     
     if($_GET){
         $staff_id = $_GET['id']; // print_r($_GET);        
@@ -31,7 +34,7 @@
 ?>
 
 <?php 
-    include('../../include/css/header.php');
+    include('../../include/css/header2.php');
 ?>
     <div class="content-wrapper">
     <div class="card">
@@ -61,3 +64,6 @@
 <?php
 include('../../include/js/footer.php');
 ?>
+<?php
+    }
+ ?>   

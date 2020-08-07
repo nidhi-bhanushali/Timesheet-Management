@@ -120,7 +120,7 @@ include('../../include/css/header.php');
                 </select>
               </div>
               <div class="form-group">
-                <label for="inputStatus">Client Name</label>
+                <label>Client Name</label>
                 <select class="form-control custom-select" name="client">
                   <option selected disabled>Select one</option>
                   <?php

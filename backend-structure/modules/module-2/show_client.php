@@ -28,6 +28,7 @@
   <div class="card">
       <div class = "card-header">
         <h3 class = "card-title">Clients</h3>
+        <a href = "http://localhost/Timesheet/backend-structure/modules/module-2/add_client.php"><input type="submit" value="Add new Client" class="btn btn-success float-right" name = "submit"></a>
       </div>
       <div class = "card-body">
         <table class="table table-striped">

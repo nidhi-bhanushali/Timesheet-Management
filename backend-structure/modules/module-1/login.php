@@ -1,9 +1,11 @@
 <?php
     require('../../include/common/config.php');
 
+    session_start();
+
     if(isset($_POST['submit'])){
         // $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
-		$email = mysqli_real_escape_string($conn, $_POST['email']);
+		    $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']); 
         // echo $role_id;
      
@@ -18,6 +20,7 @@
 
          foreach($employees as $employee){           
             $staff_id = $employee['staff_id'];
+            $_SESSION['user'] = $_POST['email'];
             if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
                 header( "location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
             } elseif(($email===$employee['email']) && ($password === $employee['password'])) {
@@ -26,7 +29,10 @@
                 echo 'invalid credentials'; 
             }
         }
-    }      
+    }     
+    {
+      echo 'Not Working Now Guys';
+  } 
 ?>
 
 

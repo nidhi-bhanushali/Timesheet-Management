@@ -1,3 +1,31 @@
+<?php
+//   require('../../include/common/config.php'); 
+// //    session_start();
+
+//     if (isset($_SESSION['user'])) {
+    
+//     if($_GET){
+//         $staff_id = $_GET['id']; // print_r($_GET);        
+//     }else{
+//       echo "Url has no user";
+//     }
+
+//     }
+
+//     $query = "SELECT staff_id FROM staff Where staff.staff_id = $staff_id";
+//         echo $query;
+//          $result = mysqli_query($conn,$query);
+//          $employees = mysqli_fetch_all($result);
+//          var_dump($employees);
+//          $count = mysqli_num_rows($result);
+//          mysqli_free_result($result);
+
+//         if($result){
+//         $staff_id = $employees[0];
+//         }else{
+//             echo 'sad';
+//         }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -166,47 +194,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
               <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php'?>" class="nav-link active">
+              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id='.$staff_id?>" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
               <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/roles.php'?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Roles</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/show_project.php'?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project List</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-2/show_client.php'?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Client List</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/taskboard.php'?>" class="nav-link">
+              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/taskboard2.php'?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Taskboard</p>
                 </a>
               </li>
               <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_tasks.php'?>" class="nav-link">
+              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_notes.php'?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Tasks</p>
-                </a>
-              </li>
-              <li class="nav-item">
-              </li>
-              <li class="nav-item">
-              <a href = "<?php echo 'http://localhost/Timesheet/backend-structure/modules/module-3/add_comments.php'?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add Comments</p>
+                  <p>Add Notes</p>
                 </a>
               </li>
               <li class="nav-item">

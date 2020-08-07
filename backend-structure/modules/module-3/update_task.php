@@ -15,7 +15,7 @@ if(isset($_POST['submit'])){
         foreach($checkbox as $selected){
             array_push($checked,$selected);
         }
-        print_r($checked);
+        print_r($checked); 
     }
     
     $id = [];
@@ -78,7 +78,7 @@ if(isset($_POST['submit'])){
                     task_id = {$task_id}
                     WHERE task_id = {$update_id}";
                     if(mysqli_query($conn, $query1)){
-                        header('Location:  http://localhost/Timesheet/backend-structure/show_project.php');
+                        header('Location:  http://localhost/Timesheet/backend-structure/modules/module-3/show_project.php');
                     } else {
                         echo 'ERROR: '. mysqli_error($conn);
                     }
@@ -87,17 +87,31 @@ if(isset($_POST['submit'])){
 }
 }
 
-$query = 'SELECT * FROM staff where (role_id != 1)';
-$result = mysqli_query( $conn , $query );
-$staff = mysqli_fetch_all($result , MYSQLI_ASSOC);
-mysqli_free_result($result);
+
+    // Fetching project names for dropdown
+    $query = "SELECT * FROM projects";
+    
+    $result = mysqli_query($conn,$query);
+
+    $projects = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($projects);
+
+    // Fetching roles for dropdown
+    $query = "SELECT * FROM roles";
+        
+    $result = mysqli_query($conn,$query);
+
+    $roles = mysqli_fetch_all($result , MYSQLI_ASSOC);
+    //var_dump($roles);
+
+    mysqli_free_result($result);
 
 $query = "SELECT * FROM progress";
     
 $result = mysqli_query($conn,$query);
 
 $progressArr = mysqli_fetch_all($result , MYSQLI_ASSOC);
-var_dump($progressArr);
+//var_dump($progressArr);
 
 mysqli_free_result($result);
 
@@ -114,7 +128,7 @@ mysqli_free_result($result);
         
         // Fetch Data
         $task = mysqli_fetch_assoc($result);
-        var_dump($task);
+        //var_dump($task);
     
         // Free Result
         mysqli_free_result($result);
@@ -128,7 +142,7 @@ mysqli_free_result($result);
         
         // Fetch Data
         $task2 = mysqli_fetch_assoc($result);
-        var_dump($task2);
+        //var_dump($task2);
     
         // Free Result
         mysqli_free_result($result);
@@ -142,7 +156,7 @@ mysqli_free_result($result);
 
         // Fetch Data
         $task1 = mysqli_fetch_assoc($result);
-        var_dump($task1);
+        //var_dump($task1);
 
         // Free Result
         mysqli_free_result($result);
@@ -160,77 +174,187 @@ mysqli_free_result($result);
 
 
 
+<?php
+include('../../include/css/header.php');
+?>
+      <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Project Add</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Project Add</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Tasks</title>
-</head>
-<body>
-    <h3>Assign Tasks</h3>
-    <style>
-        .form{
-            border: 1px solid black;
-            padding: 10px;
-            width: 200px;
-            display: flex;
-            flex-direction:column;
-            justify-content : center;
-            margin:200px auto ;
-        }
-    </style>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Roles</h3>
 
-    <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
-        <label>Project Name: </label>
-        <input type="text" name="project_name" placeholder = "Enter name..."
-        value = "<?php echo $task['project_name'];?>">
-        <br>
-        <label>Task Name: </label>
-        <input type="text" name="task_name" placeholder = "Enter task..."
-        value = "<?php echo $task['task_content'];?>">
-        <br>
-        <label>Deadline: </label>
-        <input type="text" name="deadline" placeholder = "Enter deadline..."
-        value = "<?php echo $task['Deadline'];?>">
-        <br>
-        <?php
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+            <form method="post">
+              <div class="form-group">
+              <select id="roles" name="role_name" class = "form-control custom-select">
+              <option>Choose role</option>
+              <?php
+              foreach($roles as $role_name){
+                  $role_name = $role_name['role_name'];
+                ?>
+                <option value="<?php echo $role_name;?>"
+                <?php if($task['role_name']==$role_name){echo "selected";}?>>
+                <?php echo $role_name;?> 
+                </option>
+                <?php
+                }
+                    ?>
+              </select>
+              </div>
+              <div class="form-group">
+              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
+              </div>
+            </form>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+          <div class="card card-secondary">
+            <div class="card-header">
+              <h3 class="card-title">Tasks</h3>
 
-        foreach($staff as $staffEl) {
-          $staff_id = $staffEl['staff_id'];
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+            <form method="post" enctype = "multipart/form-data">
+              <div class="form-group">
+              <label>Project Name: </label>
+              <select id="projects" name="project_name" class = "form-control custom-select">
+              <option>Choose project</option>
+              <?php
+              foreach($projects as $project){
+                  $project = $project['project_name'];
+              ?>
+                  <option value="<?php echo $project;?>"
+                  <?php if($task['project_name']==$project){echo "selected";}?>>
+                  <?php echo $project;?> 
+                  </option>
+                  <?php
+                  }
+                  ?>
+              </select>
+              </div>
+              <div class="form-group">
+                <label>Task Content</label>
+                <input type="text" class="form-control" name="task_name" value = "<?php echo $task['task_content'];?>">
+              </div>
+              <div class="form-group">
+              <label>Progress: </label>
+              <select id="progress" name="progress" class = "form-control custom-select">
+              <option>Choose progress</option>
+              <?php
+                foreach($progressArr as $progressArr1){
+                $progress_id = $progressArr1['progress_id'];
+                $progress = $progressArr1['progress'];
+                ?>
+                <option value="<?php echo $progress_id;?>"
+                <?php if($task2['progress_id']==$progress_id){echo "selected";}?>>
+                <?php echo $progress;?> 
+                </option>
+                <?php
+                }
+              ?>
+              </select>
+            </div>
+              <div class = "form-group">
+              <label>Deadline: </label>
+              <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"
+              class = "form-control" value = "<?php echo $task['Deadline'];?>"/>
+             </div>
+             
+             <?php
+              if(isset($_POST['go'])){
+                  $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
+                  if (!empty($role_name)) {
+                  $query1 = "SELECT role_id FROM roles WHERE
+                  role_name = '$role_name'LIMIT 1";
+                  // echo $query1;
+                  $result = mysqli_query($conn,$query1);
+                  if ($result !== false){
+                  $row = mysqli_fetch_array($result);
+                  $role_id = $row[0];
+                  }
+                  // echo $role_id;
+                  mysqli_free_result($result);
+                  
+                  if (!empty($role_id)) {
+                  $query1 = "SELECT * FROM staff where role_id = '$role_id'";
+                  $result = mysqli_query( $conn , $query1 );
+                  $staff = mysqli_fetch_all($result , MYSQLI_ASSOC);
+                  mysqli_free_result($result);
+                  ?>
+                  <div class = "form-check">
+                  <?php
+                  foreach($staff as $staffEl) {
+                    $staff_id = $staffEl['staff_id'];
+                  ?>
+                  <input type='checkbox' value = <?php echo $staff_id;?> name = '<?php echo "check_list[]";?>'
+                  <?php if($task1['staff_name']==$staffEl['staff_name']){echo "selected";}?>>
+                  <?php echo $staffEl['staff_name'];?>
+                  </input>
+                  <?php
+                  }
+                  ?>
+                <!-- echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'] ; -->
+
+                  </div>
+                  <?php
+              }
+          
+              }
+          }
         ?>
-        <input type='checkbox' value = <?php echo $staff_id;?> name = '<?php echo "check_list[]";?>'
-        <?php if($task1['staff_name']==$staffEl['staff_name']){echo "selected";}?>>
-        <?php echo $staffEl['staff_name'];?>
-        </input>
-        <?php
-        }
-        ?>
-      <!-- echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'] ; -->
-        
-        <br>
-        <br>
-        <select id="roles" name="progress" >
-        <option>Choose role</option>
-        
-        <?php
-        foreach($progressArr as $progressArr1){
-          $progress_id = $progressArr1['progress_id'];
-          $progress = $progressArr1['progress'];
-          ?>
-          <option value="<?php echo $progress_id;?>"
-          <?php if($task2['progress_id']==$progress_id){echo "selected";}?>>
-          <?php echo $progress;?> 
-          </option>
-          <?php
-        }
-        ?>
-        </select>
-        <br>
-        <br>
-        <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>
-        <input type="hidden" name="update_id" value="<?php echo $task['task_id']; ?>">
-    </form>
-</body>
-</html>
+             <div>
+             <div class="form-group">
+               <label>Choose File</label>
+                <input type="file" class="form-control" name="file">
+              </div>
+             <input type="submit" value="Create new Task" class="btn btn-success float-right" name = "submit">
+             <input type="hidden" name="update_id" value="<?php echo $task['task_id']; ?>">
+            </div>
+            </form> 
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+<?php
+include('../../include/js/footer.php');
+?> 

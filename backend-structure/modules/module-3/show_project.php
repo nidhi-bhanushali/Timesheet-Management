@@ -24,6 +24,7 @@
     <div class="card">
       <div class = "card-header">
       <h1 class= "card-title">Projects</h1>
+      <a href = "http://localhost/Timesheet/backend-structure/modules/module-3/add_project.php"><input type="submit" value="Create new Project" class="btn btn-success float-right" name = "submit"></a>
       </div>
       <div class = "card-body">
         <table class = "table table-striped">

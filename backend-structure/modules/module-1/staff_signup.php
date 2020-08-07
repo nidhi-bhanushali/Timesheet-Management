@@ -193,38 +193,3 @@
 <script src="../../include/AdminLTE-3.0.5/dist/js/adminlte.min.js"></script>
 </body>
 </html>
-
-
-    <!-- <form method="post" class="form" enctype = "multipart/form-data">
-        <label>Name: </label><br>
-        <input type="text" name="name" placeholder = "Enter name...">
-        <br>
-        <label>Email: </label><br>
-        <input type="email" name="email" placeholder = "Enter email...">
-        <br>
-        <label>Contact </label><br>
-        <input type="number" name="contact" placeholder = "Enter contact..." >
-        <br>
-        <label>Address </label><br>
-        <input type="text" name="address" placeholder = "Enter address...">
-        <br>
-        <select id="roles" name="role_name">
-        <option>Choose role</option>
-        <?php
-        foreach($roles as $role_name){
-            $role_name = $role_name['role_name'];
-            echo "<option value = '$role_name'>$role_name</option>";
-        }
-        ?>
-        </select>
-        <br>
-        <label>password </label>
-        <input type="password" name="password" placeholder = "Enter password...">
-        <br>
-        <input type="file" name = "file">
-        <br>
-        <br>
-        <button type="submit" name = "submit"><a href="<?php echo ROOT_URL; ?>"></a>Submit</button>
-    </form>
-</body>
-</html> -->

@@ -1,6 +1,16 @@
 <?php
    require('../../include/common/config.php');
 
+//    session_start();
+
+//    if (isset($_SESSION['user'])) {
+    
+//     if($_GET){
+//         $staff_id = $_GET['id']; // print_r($_GET);        
+//     }else{
+//       echo "Url has no user";
+//     }
+
 // Query
 $query = 'SELECT * FROM tasks
             JOIN task_staff_junc
@@ -102,7 +112,7 @@ mysqli_close($conn);
 
 
 <?php
-include('../../include/css/header.php');
+include('../../include/css/header2.php');
 ?>
       <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -287,5 +297,6 @@ include('../../include/css/header.php');
 <?php
 include('../../include/js/footer.php');
 ?>
+
 
 
