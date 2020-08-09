@@ -1,5 +1,6 @@
 <?php
 require('../../include/common/config.php');
+include('../../include/common/session.php');
 
 if(isset($_POST['submit'])){
     $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
@@ -31,8 +32,6 @@ if(isset($_POST['submit'])){
     }
     print_r($id);
     mysqli_free_result($result);
-    // $staff_id = implode(" , ",$id);
-    // echo $staff_id;
     
 
     $query = "SELECT project_id  FROM projects WHERE
@@ -265,7 +264,7 @@ include('../../include/css/header.php');
                   ?>
               </select>
               </div>
-              <div class="form-group">
+              <div class="form-group">           
                 <label>Task Content</label>
                 <input type="text" class="form-control" name="task_name" value = "<?php echo $task['task_content'];?>">
               </div>

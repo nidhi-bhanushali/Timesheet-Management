@@ -1,9 +1,10 @@
 <?php
 require('../../include/common/config.php');
-session_start();
+include('../../include/common/session.php');
+
+//session_start();
 
 if (isset($_SESSION['user']))
-
 {
 // Query
 $query = 'SELECT count(*) FROM projects';

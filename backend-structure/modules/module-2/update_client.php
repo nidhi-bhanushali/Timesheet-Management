@@ -1,5 +1,6 @@
 <?php
-    require('../../include/common/config.php');
+   require('../../include/common/config.php');
+   include('../../include/common/session.php');
 
     if(isset($_POST['submit'])){
         $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);

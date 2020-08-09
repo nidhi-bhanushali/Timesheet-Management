@@ -1,5 +1,6 @@
 <?php
-   require('../../include/common/config.php');
+  require('../../include/common/config.php');
+  include('../../include/common/session.php');
 
 //    session_start();
 

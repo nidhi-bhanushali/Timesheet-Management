@@ -1,20 +1,11 @@
 <?php
     require('../../include/common/config.php');
-
-    // session_start();
-
-    // if (isset($_SESSION['user'])) {
-    
-    //   if($_GET){
-    //       $staff_id = $_GET['id']; // print_r($_GET);        
-    //   }else{
-    //     echo "Url has no user";
-    //   }
+    include('../../include/common/session.php');
 
     if(isset($_POST['submit'])){
 		
         $staff_name = mysqli_real_escape_string($conn, $_POST['staff_name']);
-		$task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
+		    $task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
         $note_content = mysqli_real_escape_string($conn,$_POST['note_content']);
         
         // Get staff id 

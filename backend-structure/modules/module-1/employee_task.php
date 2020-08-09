@@ -1,7 +1,6 @@
 <?php
-    require('../../include/common/config.php'); 
-
-    session_start();
+    require('../../include/common/config.php');
+    include('../../include/common/session.php');
 
     if (isset($_SESSION['user'])) {
     

@@ -1,5 +1,6 @@
 <?php
-    require('../../include/common/config.php');
+  require('../../include/common/config.php');
+  include('../../include/common/session.php');
 
     // Query
     $query = 'SELECT * FROM clients ORDER BY client_name';

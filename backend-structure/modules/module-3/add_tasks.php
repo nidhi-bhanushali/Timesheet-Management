@@ -1,5 +1,6 @@
 <?php
 require('../../include/common/config.php');
+include('../../include/common/session.php');
 
 if(isset($_POST['submit'])){
     $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
@@ -151,7 +152,7 @@ include('../../include/css/header.php');
               </div>
             </div>
             <div class="card-body">
-            <form method="post">
+            <form method="post" >
               <div class="form-group">
               <select id="roles" name="role_name" class = "form-control custom-select">
               <option>Choose role</option>

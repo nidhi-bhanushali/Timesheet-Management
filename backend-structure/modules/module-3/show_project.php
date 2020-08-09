@@ -1,5 +1,6 @@
 <?php
-    require('../../include/common/config.php');
+   require('../../include/common/config.php');
+   include('../../include/common/session.php');
 
     // getting all the projects
     $query = 'SELECT * FROM projects ORDER BY client_name';
