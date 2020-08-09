@@ -8,7 +8,7 @@
       $myemail = mysqli_real_escape_string($conn,$_POST['email']);
       $mypassword = mysqli_real_escape_string($conn,$_POST['password']); 
       
-      $sql = "SELECT staff_id FROM staff WHERE email = '$myemail' and password = '$mypassword'";
+      $sql = "SELECT staff_id , role_id FROM staff WHERE email = '$myemail' and password = '$mypassword'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       //$active = $row['active'];
@@ -19,52 +19,19 @@
 		
       if($count == 1) {
          //session_register("myusername");
+         $staff_id = $row['staff_id'];
          $_SESSION['user'] = $myemail;
-         
-         header("location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
+         if ($row['role_id'] == 1) {
+          header("location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php"); 
+         }else {
+          header( "Location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id=".$staff_id);
+         } 
       }else {
          $error = "Your Login Name or Password is invalid";
       }
    }
 ?>
 
-
-<?php
-  //   require('../../include/common/config.php');
-
-  //   session_start();
-
-  //   if(isset($_POST['submit'])){
-  //       // $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
-	// 	    $email = mysqli_real_escape_string($conn, $_POST['email']);
-  //       $password = mysqli_real_escape_string($conn,$_POST['password']); 
-  //       // echo $role_id;
-     
-
-  //   $query = "SELECT * FROM staff";
-  //       echo $query;
-  //        $result = mysqli_query($conn,$query);
-  //        $employees = mysqli_fetch_all($result , MYSQLI_ASSOC);
-  //        //var_dump($employees);
-  //        $count = mysqli_num_rows($result);
-  //        mysqli_free_result($result);
-
-  //        foreach($employees as $employee){           
-  //           $staff_id = $employee['staff_id'];
-  //           $_SESSION['user'] = $_POST['email'];        
-  //           if (($email===$employee['email']) && ($password === $employee['password'] && $employee['role_id'] == 1)) {
-  //               header( "location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php");
-  //           } elseif(($email===$employee['email']) && ($password === $employee['password'])) {
-  //               header( "Location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id=".$staff_id);
-  //           }else{
-  //               echo 'invalid credentials'; 
-  //           }
-  //       }
-  //   }     
-  //   {
-  //     echo 'Not Working Now Guys';
-  // } 
-?>
 
 
 
