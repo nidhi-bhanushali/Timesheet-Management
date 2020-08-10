@@ -4,6 +4,7 @@ include('../../include/common/session.php');
 
 if(isset($_POST['submit'])){
     $update_id = mysqli_real_escape_string($conn, $_POST['update_id']);
+    $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
     $project_name = mysqli_real_escape_string($conn, $_POST['project_name']);
     $task_name = mysqli_real_escape_string($conn, $_POST['task_name']);
     $progress = mysqli_real_escape_string($conn,$_POST['progress']);
@@ -258,11 +259,11 @@ include('../../include/css/header.php');
               <select id="roles" name="role_name" class = "form-control custom-select">
               <option>Choose role</option>
               <?php
-              foreach($roles as $role_name){
-                  $role_name = $role_name['role_name'];
+              foreach($roles as $role_nameEl){
+                  $role_nameEl = $role_nameEl['role_name'];
                 ?>
                 <option value="<?php echo $role_name;?>"
-                <?php if($task['role_name']==$role_name){echo "selected";}?>>
+                <?php if($role_name==$role_nameEl){echo "selected";}?>>
                 <?php echo $role_name;?> 
                 </option>
                 <?php
@@ -270,52 +271,7 @@ include('../../include/css/header.php');
                     ?>
               </select>
               </div>
-              <div class="form-group">
-              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
-              </div>
-             <?php
-              if(isset($_POST['go'])){
-                  $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
-                  if (!empty($role_name)) {
-                  $query1 = "SELECT role_id FROM roles WHERE
-                  role_name = '$role_name'LIMIT 1";
-                  // echo $query1;
-                  $result = mysqli_query($conn,$query1);
-                  if ($result !== false){
-                  $row = mysqli_fetch_array($result);
-                  $role_id = $row[0];
-                  }
-                  // echo $role_id;
-                  mysqli_free_result($result);
-                  
-                  if (!empty($role_id)) {
-                  $query1 = "SELECT * FROM staff where role_id = '$role_id'";
-                  $result = mysqli_query( $conn , $query1 );
-                  $staff = mysqli_fetch_all($result , MYSQLI_ASSOC);
-                  mysqli_free_result($result);
-                  ?>
-                  <div class = "form-check">
-                  <?php
-                  $ticked = [];
-                  foreach($staff as $staffEl) {
-                    array_push($ticked , $staffEl);
-                  ?>
-                  <input type='checkbox' value = <?php echo $staff_id;?> name = '<?php echo "check_list[]";?>'
-                  <?php if(in_array($ticked , $task1['staff_name'])){echo "selected";}?>>
-                  <?php echo $staffEl['staff_name'];?>
-                  </input>
-                  <?php
-                  }
-                  ?>
-                <!-- echo "<input type='checkbox' value='{$data['staff_name']}' name='check_list[]'>" . $data['staff_name'] ; -->
-
-                  </div>
-                  <?php
-              }
-          
-              }
-          }
-        ?>
+              <div id="txt_hint"></div>
              <div>
              <div class="form-group">
                <label>Choose File</label>
@@ -336,6 +292,30 @@ include('../../include/css/header.php');
   </div>
   <!-- /.content-wrapper -->
 
+  <script>
+    function showUser(str) {
+      if (str == '') {
+        document.getElementById("txt_hint").innerHTML = "";
+        return;
+      } else { 
+        if (window.XMLHttpRequest) {
+          // script for browser version above IE 7 and the other popular browsers (newer browsers)
+          xmlhttp = new XMLHttpRequest();
+        } else {
+          // script for the IE 5 and 6 browsers (older versions)
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // get the element in which we will use as a placeholder and space for table
+            document.getElementById("txt_hint").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET", "checkbox.php?q="+str, true);
+        xmlhttp.send();
+     }
+    }
+  </script>
 <?php
 include('../../include/js/footer.php');
 ?> 
