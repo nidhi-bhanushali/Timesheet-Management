@@ -19,12 +19,12 @@
 		
       if($count == 1) {
          //session_register("myusername");
-         $staff_id = $row['staff_id'];
+         $_SESSION["staff_id"] = $row['staff_id'];
          $_SESSION['user'] = $myemail;
          if ($row['role_id'] == 1) {
           header("location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php"); 
          }else {
-          header( "Location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id=".$staff_id);
+          header( "Location: http://localhost/Timesheet/backend-structure/modules/module-1/employee_task.php?id=".$_SESSION['staff_id']);
          } 
       }else {
          $error = "Your Login Name or Password is invalid";
@@ -58,7 +58,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="../../index2.html"><b>Admin</b>LTE</a> 
   </div>
   <!-- /.login-logo -->
   <div class="card">

@@ -19,12 +19,13 @@ if(isset($_POST['submit'])){
     // Multiple checkbox 
     if(!empty($_POST['check_list'])){
         $checkbox = $_POST['check_list'];
+        print_r($checkbox);
         $checked=[];
         // Loop to store and display values of individual checked checkbox.
         foreach($checkbox as $selected){
             array_push($checked,$selected);
         }
-        // print_r($checked);
+        print_r($checked);
     }
     
     $id = [];
@@ -126,12 +127,12 @@ include('../../include/css/header.php');
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Project Add</h1>
+            <h1>Task Add</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Project Add</li>
+              <li class="breadcrumb-item active">Task Add</li>
             </ol>
           </div>
         </div>
@@ -141,39 +142,7 @@ include('../../include/css/header.php');
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Roles</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fas fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="card-body">
-            <form method="post" >
-              <div class="form-group">
-              <select id="roles" name="role_name" class = "form-control custom-select">
-              <option>Choose role</option>
-              <?php
-              foreach($roles as $role_name){
-                  $role_name = $role_name['role_name'];
-                  echo "<option value = '$role_name'>$role_name</option>";
-              }
-              ?>
-              </select>
-              </div>
-              <div class="form-group">
-              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
-              </div>
-            </form>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-6 offset-3">
           <div class="card card-secondary">
             <div class="card-header">
               <h3 class="card-title">Tasks</h3>
@@ -218,6 +187,26 @@ include('../../include/css/header.php');
               <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"
               class = "form-control"/>
              </div>
+             <div class="form-group">
+              <select id="roles" name="role_name" class = "form-control custom-select">
+              <option>Choose role</option>
+              <?php
+              foreach($roles as $role){
+                  $role_nameEl = $role['role_name'];
+                  $role_id = $role['role_id'];
+                  ?>
+                  <option value="<?php echo $role_nameEl;?>">
+                  <?php if($role_name==$role_nameEl){echo "selected";}?>
+                  <?php echo $role_nameEl;?> 
+                  </option>
+                  <?php
+                 }
+              ?>
+              </select>
+              </div>
+              <div class="form-group">
+              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
+              </div>
              
              <?php
               if(isset($_POST['go'])){

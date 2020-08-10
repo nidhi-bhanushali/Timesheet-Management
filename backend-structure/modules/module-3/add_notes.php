@@ -2,6 +2,8 @@
     require('../../include/common/config.php');
     include('../../include/common/session.php');
 
+    $staff_id = $_SESSION['staff_id'];
+
     if(isset($_POST['submit'])){
 		
         $staff_name = mysqli_real_escape_string($conn, $_POST['staff_name']);
@@ -13,7 +15,7 @@
         staff_name = '$staff_name'LIMIT 1";
         echo $sql1;
         $result = mysqli_query($conn,$sql1);
-        if ($result !== false){
+        if ($result !== false){ 
             $row = mysqli_fetch_array($result);
             $staff_id = $row[0];
         }

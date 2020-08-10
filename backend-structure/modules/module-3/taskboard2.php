@@ -2,15 +2,17 @@
   require('../../include/common/config.php');
   include('../../include/common/session.php');
 
-//    session_start();
+   //session_start();
 
-//    if (isset($_SESSION['user'])) {
+    // if (isset($_SESSION['user'])) {
     
-//     if($_GET){
-//         $staff_id = $_GET['id']; // print_r($_GET);        
-//     }else{
-//       echo "Url has no user";
-//     }
+    //   if($_GET){
+    //       $staff_id = $_GET['id']; // print_r($_GET);        
+    //   }else{
+    //     echo "Url has no user";
+    //   }
+
+    $staff_id = $_SESSION['staff_id'];
 
 // Query
 $query = 'SELECT * FROM tasks
@@ -18,7 +20,7 @@ $query = 'SELECT * FROM tasks
             ON tasks.task_id = task_staff_junc.task_id 
             JOIN staff
             ON task_staff_junc.staff_id = staff.staff_id
-             WHERE tasks.progress_id = 2';
+             WHERE tasks.progress_id = 2'; 
 
 // Result
 $result = mysqli_query($conn,$query);
@@ -299,5 +301,7 @@ include('../../include/css/header2.php');
 include('../../include/js/footer.php');
 ?>
 
-
+<?php
+  //  }
+  ?>
 

@@ -125,7 +125,7 @@ mysqli_free_result($result);
     
         $result = mysqli_query($conn, $query);
         
-        // Fetch Data
+        // Fetch Data 
         $task = mysqli_fetch_assoc($result);
         //var_dump($task);
     
@@ -198,44 +198,7 @@ include('../../include/css/header.php');
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Roles</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                  <i class="fas fa-minus"></i></button>
-              </div>
-            </div>
-            <div class="card-body">
-            <form method="post">
-              <div class="form-group">
-              <select id="roles" name="role_name" class = "form-control custom-select">
-              <option>Choose role</option>
-              <?php
-              foreach($roles as $role_name){
-                  $role_name = $role_name['role_name'];
-                ?>
-                <option value="<?php echo $role_name;?>"
-                <?php if($task['role_name']==$role_name){echo "selected";}?>>
-                <?php echo $role_name;?> 
-                </option>
-                <?php
-                }
-                    ?>
-              </select>
-              </div>
-              <div class="form-group">
-              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
-              </div>
-            </form>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <div class="col-md-6">
+        <div class="col-md-6 offset-3">
           <div class="card card-secondary">
             <div class="card-header">
               <h3 class="card-title">Tasks</h3>
@@ -291,7 +254,25 @@ include('../../include/css/header.php');
               <input type="date" name="deadline" placeholder="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" title="Enter a date in this formart YYYY-MM-DD"
               class = "form-control" value = "<?php echo $task['Deadline'];?>"/>
              </div>
-             
+             <div class="form-group">
+              <select id="roles" name="role_name" class = "form-control custom-select">
+              <option>Choose role</option>
+              <?php
+              foreach($roles as $role_name){
+                  $role_name = $role_name['role_name'];
+                ?>
+                <option value="<?php echo $role_name;?>"
+                <?php if($task['role_name']==$role_name){echo "selected";}?>>
+                <?php echo $role_name;?> 
+                </option>
+                <?php
+                }
+                    ?>
+              </select>
+              </div>
+              <div class="form-group">
+              <button id="Filter" name = "go" class = "btn btn-dark btn-small">Go</button>
+              </div>
              <?php
               if(isset($_POST['go'])){
                   $role_name = mysqli_real_escape_string($conn, $_POST['role_name']);
@@ -315,11 +296,12 @@ include('../../include/css/header.php');
                   ?>
                   <div class = "form-check">
                   <?php
+                  $ticked = [];
                   foreach($staff as $staffEl) {
-                    $staff_id = $staffEl['staff_id'];
+                    array_push($ticked , $staffEl);
                   ?>
                   <input type='checkbox' value = <?php echo $staff_id;?> name = '<?php echo "check_list[]";?>'
-                  <?php if($task1['staff_name']==$staffEl['staff_name']){echo "selected";}?>>
+                  <?php if(in_array($ticked , $task1['staff_name'])){echo "selected";}?>>
                   <?php echo $staffEl['staff_name'];?>
                   </input>
                   <?php

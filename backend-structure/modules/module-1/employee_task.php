@@ -1,14 +1,15 @@
 <?php
     require('../../include/common/config.php');
     include('../../include/common/session.php');
-
-    if (isset($_SESSION['user'])) {
     
-    if($_GET){
-        $staff_id = $_GET['id']; // print_r($_GET);        
-    }else{
-      echo "Url has no user";
-    }
+    // if($_GET){
+    //     $staff_id = $_GET['id']; 
+    //     // print_r($_GET);        
+    // }else{
+    //   echo "Url has no user";
+    // }
+
+    $staff_id = $_SESSION['staff_id'];
 
     // Getting tasks alloted to individual staff member according to his id
     $query = "SELECT * FROM task_staff_junc
@@ -17,7 +18,7 @@
               JOIN progress
               ON tasks.progress_id = progress.progress_id
               WHERE staff_id = '$staff_id'";  
-
+ 
     // Result
     $result = mysqli_query($conn,$query);
 
@@ -63,6 +64,4 @@
 <?php
 include('../../include/js/footer.php');
 ?>
-<?php
-    }
- ?>   
+   

@@ -1,20 +1,11 @@
 <?php
-//   require('../../include/common/config.php'); 
-// //    session_start();
+  //require('../../include/common/config.php');
 
-//     if (isset($_SESSION['user'])) {
-    
-//     if($_GET){
-//         $staff_id = $_GET['id']; // print_r($_GET);        
-//     }else{
-//       echo "Url has no user";
-//     }
-
-//     }
+  //session_start();
 
 //     $query = "SELECT staff_id FROM staff Where staff.staff_id = $staff_id";
 //         echo $query;
-//          $result = mysqli_query($conn,$query);
+//          $result = mysqli_query($conn,$query); 
 //          $employees = mysqli_fetch_all($result);
 //          var_dump($employees);
 //          $count = mysqli_num_rows($result);
