@@ -11,7 +11,7 @@ session_start();
    $login_session = $row['email'];
    
    if(!isset($_SESSION['user'])){
-      header("location:login.php");
+      header("location:http://localhost/Timesheet/backend-structure/modules/module-1/login.php");
       die();
    }
 
