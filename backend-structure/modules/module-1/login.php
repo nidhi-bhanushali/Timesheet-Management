@@ -8,7 +8,7 @@
       $myemail = mysqli_real_escape_string($conn,$_POST['email']);
       $mypassword = mysqli_real_escape_string($conn,$_POST['password']); 
       
-      $sql = "SELECT staff_id , role_id FROM staff WHERE email = '$myemail' and password = '$mypassword'";
+      $sql = "SELECT staff_id , role_id , staff_name FROM staff WHERE email = '$myemail' and password = '$mypassword'";
       $result = mysqli_query($conn,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       //$active = $row['active'];
@@ -20,6 +20,7 @@
       if($count == 1) {
          //session_register("myusername");
          $_SESSION["staff_id"] = $row['staff_id'];
+         $_SESSION['staff_name'] = $row['staff_name'];
          $_SESSION['user'] = $myemail;
          if ($row['role_id'] == 1) {
           header("location: http://localhost/Timesheet/backend-structure/modules/module-3/dashboard.php"); 

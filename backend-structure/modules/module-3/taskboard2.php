@@ -2,17 +2,8 @@
   require('../../include/common/config.php');
   include('../../include/common/session.php');
 
-   //session_start();
-
-    // if (isset($_SESSION['user'])) {
-    
-    //   if($_GET){
-    //       $staff_id = $_GET['id']; // print_r($_GET);        
-    //   }else{
-    //     echo "Url has no user";
-    //   }
-
     $staff_id = $_SESSION['staff_id'];
+    $staff_name = $_SESSION['staff_name']; 
 
 // Query
 $query = 'SELECT * FROM tasks

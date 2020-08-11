@@ -6,7 +6,7 @@
 
     if(isset($_POST['submit'])){
         $name = mysqli_real_escape_string($conn, $_POST['name']);
-		$email = mysqli_real_escape_string($conn, $_POST['email']);
+		    $email = mysqli_real_escape_string($conn, $_POST['email']);
         $contact = mysqli_real_escape_string($conn,$_POST['contact']);
         $address = mysqli_real_escape_string($conn,$_POST['address']);
         //echo $address;

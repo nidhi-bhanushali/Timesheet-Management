@@ -10,6 +10,7 @@
     // }
 
     $staff_id = $_SESSION['staff_id'];
+    $staff_name = $_SESSION['staff_name']; 
 
     // Getting tasks alloted to individual staff member according to his id
     $query = "SELECT * FROM task_staff_junc

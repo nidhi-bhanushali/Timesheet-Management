@@ -3,6 +3,7 @@
     include('../../include/common/session.php');
 
     $staff_id = $_SESSION['staff_id'];
+    $staff_name = $_SESSION['staff_name']; 
 
     if(isset($_POST['submit'])){
 		
