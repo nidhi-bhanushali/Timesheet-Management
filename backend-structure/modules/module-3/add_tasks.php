@@ -21,12 +21,12 @@ if(isset($_POST['submit'])){
         $checkbox = $_POST['check_list'];
         print_r($checkbox);
         $checked=[];
-        // Loop to store and display values of individual checked checkbox.
         foreach($checkbox as $selected){
-            array_push($checked,$selected);
+          array_push($checked,$selected);
         }
         print_r($checked);
-    }
+  }
+}~~
     
     $id = [];
     $i = 0;

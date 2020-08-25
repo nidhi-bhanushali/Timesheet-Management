@@ -24,7 +24,7 @@ if ($result !== false){
         <div class = "form-check">
         <?php
         foreach($data as $data) {
-        echo "<input type='checkbox' value='{$data['staff_name']}'class = 'form-check-input' name='check_list[]'>" . $data['staff_name'];
+        echo "<input type='checkbox' value='{$data['staff_name']}' class = 'form-check-input' name='check_list[]'>" . $data['staff_name'];
         echo "<br/>";
         }
     }
