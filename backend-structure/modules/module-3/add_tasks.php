@@ -19,14 +19,14 @@ if(isset($_POST['submit'])){
     // Multiple checkbox 
     if(!empty($_POST['check_list'])){
         $checkbox = $_POST['check_list'];
-        print_r($checkbox);
+        //print_r($checkbox);
         $checked=[];
         foreach($checkbox as $selected){
           array_push($checked,$selected);
         }
-        print_r($checked);
+        //print_r($checked);
   }
-}~~
+
     
     $id = [];
     $i = 0;
@@ -39,7 +39,9 @@ if(isset($_POST['submit'])){
         $row = mysqli_fetch_array($result);
         //echo $row[$i];
         array_push($id , $row[$i]);
+        //print_r($i);
     }
+    //print_r($i);
 
     // getting project id using project name
     $query = "SELECT project_id FROM projects WHERE

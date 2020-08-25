@@ -2,6 +2,8 @@
  <?php
     require('../../include/common/config.php');
     include('../../include/common/session.php');
+    require('../../PHPMailerAutoload.php');
+    require('../../credential.php');
 
 
     if(isset($_POST['submit'])){
@@ -24,6 +26,41 @@
         $upload_dir = 'C:/xampp1/htdocs/Timesheet/backend-structure/uploads2'; 
         move_uploaded_file($tname , $upload_dir.'/'.$fileName2);
         // echo $role_id;
+
+        // Send mail
+        $mail = new PHPMailer;
+
+        $mail->SMTPDebug = 4;                               // Enable verbose debug output
+        
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+        $mail->Username = EMAIL;                 // SMTP username
+        $mail->Password = PASSWORD;                           // SMTP password
+        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                    // TCP port to connect to
+        
+        $mail->setFrom(EMAIL, 'Mailer');
+        $mail->addAddress(RECIPIENT, 'Joe User');     // Add a recipient
+        //$mail->addAddress('ellen@example.com');               // Name is optional
+        $mail->addReplyTo(EMAIL);
+        // $mail->addCC('cc@example.com');
+        // $mail->addBCC('bcc@example.com');
+        
+        // $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+        //$mail->isHTML(true);                                  // Set email format to HTML
+        
+        $mail->Subject = 'Here is the subject';
+        //$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+        
+        if(!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
 
 
         // get admin's staff id 
@@ -63,7 +100,8 @@
 			header('Location:  http://localhost/Timesheet/backend-structure/modules/module-3/show_project.php');
 		} else {
 			echo 'ERROR: '. mysqli_error($conn);
-		}
+    }
+    
     }
     
     // Getting all the clients for dropdown
@@ -117,7 +155,7 @@ include('../../include/css/header.php');
               </div>
             </div>
             <div class="card-body">
-            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form">
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post" class="form" enctype = "multipart/form-data">
               <div class="form-group">
                 <label for="inputName">Project Name</label>
                 <input type="text" id="inputName" class="form-control" name="project_name">
